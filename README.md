@@ -9,7 +9,7 @@ Site estático: React + Vite + TypeScript. Os dados ficam em arquivos JSON versi
 | Rota | O que faz |
 | --- | --- |
 | `/` Preços atuais | Resumo (menor/maior S-10, média por região, 5 mais baratos), busca, filtro por região e bandeira, ordenação, variação do S-10 contra a atualização anterior. Clicar num posto abre o painel lateral com preços, estatísticas, gráfico e abastecimentos. |
-| `/historico` | Evolução do preço por produto e período, liga/desliga de postos (a escolha fica salva no navegador), gráfico (até 8 postos com mais registros) e tabela estabelecimento × data. |
+| `/historico` | Produto e período; resumo (abastecimentos, quantidade, gasto total, preço médio ponderado); gráfico com a média da rede e a faixa de menor/maior preço do dia, mais até 6 postos destacados; tabela de postos ordenável (preço médio, menor, maior, último, variação no período, tendência) com chave para ocultar o posto (a escolha fica salva no navegador); tabela diária estabelecimento × data. |
 | `/comparar` | Dois postos lado a lado: preços, bandeira, histórico e diferenças. Inclui postos que só aparecem no histórico ("fora da tabela de preços"). |
 
 Todo o estado de navegação (filtros, produto, período, posto aberto, postos comparados) fica na URL, então qualquer link pode ser compartilhado. O tema claro/escuro é lembrado no navegador.
