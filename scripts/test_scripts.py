@@ -76,6 +76,13 @@ class Abastecimentos(unittest.TestCase):
         self.assertEqual((len(todos), n), (2, 1))
         self.assertEqual(todos[0]["hora"], "06:39:44")
 
+    def test_nome_do_posto_segue_o_historico(self):
+        novo = ab.extrair(self.linhas())
+        assert novo[0]["estabNome"] == "Posto Ravena Rede HG"
+        antigo = [dict(novo[0], estabNome="Posto Ravena (grafia antiga)", hora="01:00:00")]
+        todos, _ = ab.mesclar(antigo, novo)
+        self.assertEqual({r["estabNome"] for r in todos}, {"Posto Ravena (grafia antiga)"})
+
     def test_html_disfarcado_de_xls(self):
         p = ab._Tabelas()
         p.feed("<table><tr><th>Data</th><th>Posto</th></tr><tr><td>01/10/2026</td><td>A\n B</td></tr></table>")

@@ -8,6 +8,7 @@ são somados aos de public/data/abastecimentos.json, sem duplicar (mesma data, h
 motorista, produto, valor e quantidade).
 """
 import argparse
+import re
 import sys
 from datetime import datetime
 from html.parser import HTMLParser
@@ -123,7 +124,7 @@ def extrair(linhas: list[list]) -> list[dict]:
             "servico": limpar(get(i_serv)).upper(),
             "valor": valor,
             "estabKey": estab.upper(),
-            "estabNome": estab.title(),
+            "estabNome": re.sub(r"\bHg\b", "HG", estab.title()),
             "hora": hora,
             "motorista": limpar(get(i_mot)).title(),
             "quantidade": numero(get(i_qtd)),
@@ -139,7 +140,12 @@ def assinatura(r: dict) -> tuple:
 
 
 def mesclar(existentes: list[dict], novos: list[dict]) -> tuple[list[dict], int]:
-    """Soma os novos aos existentes sem duplicar; devolve (lista ordenada, quantos entraram)."""
+    """Soma os novos aos existentes sem duplicar; devolve (lista ordenada, quantos entraram).
+
+    Postos que já existem mantêm a grafia do nome que já está no histórico.
+    """
+    nomes = {r["estabKey"]: r["estabNome"] for r in existentes}
+    novos = [dict(r, estabNome=nomes.get(r["estabKey"], r["estabNome"])) for r in novos]
     vistos = {assinatura(r) for r in existentes}
     adicionados = []
     for r in novos:
