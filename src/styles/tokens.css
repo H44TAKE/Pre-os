@@ -1,0 +1,71 @@
+/* Identidade: azul-marinho, amarelo-ouro e verde da marca Rede HG.
+   Amarelo só marca estado atual (aba ativa); verde = melhor preço; vermelho = pior/alta. */
+:root {
+  --azul-950: #0a1e3a;
+  --azul-900: #0f2a4d;
+  --azul-700: #17498a;
+  --azul-600: #1d5aa8;
+  --ouro: #fdc500;
+  --verde-600: #00873f;
+  --verde-700: #006b32;
+  --vermelho-600: #c4372b;
+
+  --bg: #f1f4f8;
+  --surface: #ffffff;
+  --surface-2: #f6f8fb;
+  --surface-3: #eaeff5;
+  --ink: #0e1b2e;
+  --ink-2: #44546b;
+  --ink-3: #5f6f86;
+  --linha: #dbe2ec;
+  --linha-forte: #c3cddb;
+
+  --acao: var(--azul-700);
+  --acao-ink: #ffffff;
+  --acao-suave: #e6eef9;
+  --bom: var(--verde-700);
+  --bom-suave: #e3f3ea;
+  --ruim: var(--vermelho-600);
+  --ruim-suave: #fbe9e7;
+  --foco: #1d5aa8;
+
+  --sombra-gaveta: -12px 0 32px -8px rgb(10 30 58 / 0.28);
+
+  --font: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+
+  --t-xs: 0.75rem;
+  --t-sm: 0.8125rem;
+  --t-base: 0.9375rem;
+  --t-md: 1.0625rem;
+  --t-lg: 1.25rem;
+  --t-xl: 1.625rem;
+
+  --r: 6px;
+  --r-lg: 10px;
+  --topbar-h: 60px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a1626;
+  --surface: #11213a;
+  --surface-2: #16294a;
+  --surface-3: #1c3358;
+  --ink: #e9f0f9;
+  --ink-2: #a9b9ce;
+  --ink-3: #8c9db4;
+  --linha: #243a5e;
+  --linha-forte: #34507d;
+
+  --acao: #6fa8ff;
+  --acao-ink: #0a1626;
+  --acao-suave: #172f55;
+  --bom: #43d083;
+  --bom-suave: #123524;
+  --ruim: #ff8173;
+  --ruim-suave: #3b1d22;
+  --foco: #8fbaff;
+  --sombra-gaveta: -12px 0 32px -8px rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
