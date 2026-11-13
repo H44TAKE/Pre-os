@@ -1,71 +1,75 @@
-/* Identidade: azul-marinho, amarelo-ouro e verde da marca Rede HG.
-   Amarelo só marca estado atual (aba ativa); verde = melhor preço; vermelho = pior/alta. */
+/* Identidade Rede HG, em linguagem leve: fundo cinza-claro, cartões brancos arredondados,
+   sombras suaves. Azul = ação; verde = melhor preço; vermelho = pior/alta; ouro só em detalhes. */
 :root {
   --azul-950: #0a1e3a;
   --azul-900: #0f2a4d;
-  --azul-700: #17498a;
-  --azul-600: #1d5aa8;
+  --azul-700: #0a5cc7;
+  --azul-600: #1d6fe0;
   --ouro: #fdc500;
-  --verde-600: #00873f;
-  --verde-700: #006b32;
-  --vermelho-600: #c4372b;
+  --verde-600: #34c759;
+  --verde-700: #1b8a42;
+  --vermelho-600: #d93a30;
 
-  --bg: #f1f4f8;
+  --bg: #f2f4f8;
   --surface: #ffffff;
-  --surface-2: #f6f8fb;
-  --surface-3: #eaeff5;
-  --ink: #0e1b2e;
-  --ink-2: #44546b;
-  --ink-3: #5f6f86;
-  --linha: #dbe2ec;
-  --linha-forte: #c3cddb;
+  --surface-2: #f6f7fa;
+  --surface-3: #eceef3;
+  --ink: #16181d;
+  --ink-2: #565c69;
+  --ink-3: #6b7280;
+  --linha: rgb(22 24 29 / 0.08);
+  --linha-forte: rgb(22 24 29 / 0.16);
 
   --acao: var(--azul-700);
   --acao-ink: #ffffff;
-  --acao-suave: #e6eef9;
+  --acao-suave: #e8f0fd;
   --bom: var(--verde-700);
-  --bom-suave: #e3f3ea;
+  --bom-suave: #e5f6ea;
   --ruim: var(--vermelho-600);
-  --ruim-suave: #fbe9e7;
-  --foco: #1d5aa8;
+  --ruim-suave: #fdeceb;
+  --foco: #1d6fe0;
 
-  --sombra-gaveta: -12px 0 32px -8px rgb(10 30 58 / 0.28);
+  --vidro: rgb(255 255 255 / 0.72);
+  --sombra-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 4px 16px rgb(16 24 40 / 0.05);
+  --sombra-gaveta: -16px 0 48px -12px rgb(16 24 40 / 0.28);
 
-  --font: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-num: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+  --font: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-num: var(--font);
 
   --t-xs: 0.75rem;
   --t-sm: 0.8125rem;
   --t-base: 0.9375rem;
   --t-md: 1.0625rem;
   --t-lg: 1.25rem;
-  --t-xl: 1.625rem;
+  --t-xl: 1.75rem;
 
-  --r: 6px;
-  --r-lg: 10px;
-  --topbar-h: 60px;
+  --r: 12px;
+  --r-lg: 20px;
+  --topbar-h: 64px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root[data-theme="dark"] {
-  --bg: #0a1626;
-  --surface: #11213a;
-  --surface-2: #16294a;
-  --surface-3: #1c3358;
-  --ink: #e9f0f9;
-  --ink-2: #a9b9ce;
-  --ink-3: #8c9db4;
-  --linha: #243a5e;
-  --linha-forte: #34507d;
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #232326;
+  --surface-3: #2c2c30;
+  --ink: #f5f5f7;
+  --ink-2: #b4b4bc;
+  --ink-3: #94949e;
+  --linha: rgb(255 255 255 / 0.09);
+  --linha-forte: rgb(255 255 255 / 0.2);
 
-  --acao: #6fa8ff;
-  --acao-ink: #0a1626;
-  --acao-suave: #172f55;
-  --bom: #43d083;
-  --bom-suave: #123524;
-  --ruim: #ff8173;
-  --ruim-suave: #3b1d22;
-  --foco: #8fbaff;
-  --sombra-gaveta: -12px 0 32px -8px rgb(0 0 0 / 0.6);
+  --acao: #5aa2ff;
+  --acao-ink: #05172e;
+  --acao-suave: #12294a;
+  --bom: #4cd380;
+  --bom-suave: #12301f;
+  --ruim: #ff7b6f;
+  --ruim-suave: #3a1c1f;
+  --foco: #7db6ff;
+  --vidro: rgb(28 28 30 / 0.72);
+  --sombra-card: 0 0 0 1px rgb(255 255 255 / 0.04);
+  --sombra-gaveta: -16px 0 48px -12px rgb(0 0 0 / 0.7);
   color-scheme: dark;
 }

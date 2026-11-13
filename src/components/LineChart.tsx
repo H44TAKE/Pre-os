@@ -44,12 +44,13 @@ export function LineChart({ rotulos, series, altura = 320, legenda = true }: { r
       },
       options: {
         responsive: true,
+        layout: { padding: { left: 6, right: 6 } },
         maintainAspectRatio: false,
         animation: { duration: 200 },
         interaction: { mode: "index", intersect: false },
         plugins: {
           legend: legenda
-            ? { position: "bottom", labels: { color: texto, boxWidth: 8, boxHeight: 8, usePointStyle: true, pointStyle: "circle", font: { size: 12, family: "Barlow" }, padding: 14 } }
+            ? { position: "bottom", labels: { color: texto, boxWidth: 8, boxHeight: 8, usePointStyle: true, pointStyle: "circle", font: { size: 12, family: "Inter Variable" }, padding: 14 } }
             : { display: false },
           tooltip: {
             callbacks: {
@@ -58,8 +59,8 @@ export function LineChart({ rotulos, series, altura = 320, legenda = true }: { r
           },
         },
         scales: {
-          x: { grid: { color: grade }, ticks: { color: texto, font: { size: 11, family: "Barlow" } } },
-          y: { grid: { color: grade }, ticks: { color: texto, font: { size: 11, family: "Barlow" }, callback: (v) => `R$ ${Number(v).toFixed(2).replace(".", ",")}` } },
+          x: { grid: { color: grade }, ticks: { color: texto, font: { size: 11, family: "Inter Variable" } } },
+          y: { grid: { color: grade }, ticks: { color: texto, font: { size: 11, family: "Inter Variable" }, callback: (v) => `R$ ${Number(v).toFixed(2).replace(".", ",")}` } },
         },
       },
     });

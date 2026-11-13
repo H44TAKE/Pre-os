@@ -4,14 +4,15 @@
   flex-direction: column;
 }
 
-/* ---------- Barra superior ---------- */
+/* ---------- Barra superior (vidro) ---------- */
 .topbar {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: var(--azul-900);
-  color: #fff;
-  border-bottom: 3px solid var(--ouro);
+  background: var(--vidro);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--linha);
 }
 .topbar-in {
   max-width: 1280px;
@@ -20,7 +21,7 @@
   min-height: var(--topbar-h);
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
 }
 .marca {
   display: flex;
@@ -33,8 +34,9 @@
 .marca-logo {
   width: 40px;
   height: 40px;
-  border-radius: var(--r);
-  background: #fff;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--linha), 0 2px 8px rgb(16 24 40 / 0.08);
   display: grid;
   place-items: center;
 }
@@ -45,49 +47,42 @@
 }
 .marca-texto strong {
   font-size: var(--t-md);
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-weight: 650;
+  letter-spacing: -0.01em;
 }
 .marca-texto span {
   font-size: var(--t-xs);
-  color: #b8c8e0;
+  color: var(--ink-3);
 }
 
+/* navegação em pílula, como um controle segmentado do iOS */
 .nav {
   display: flex;
-  align-self: stretch;
-  gap: 4px;
+  gap: 2px;
+  padding: 3px;
+  margin-left: 8px;
+  background: var(--surface-3);
+  border-radius: 999px;
 }
 .nav a {
   display: flex;
   align-items: center;
-  padding: 0 14px;
-  color: #c9d6ea;
+  padding: 7px 16px;
+  border-radius: 999px;
+  color: var(--ink-2);
   text-decoration: none;
-  font-weight: 500;
-  font-size: var(--t-base);
-  position: relative;
-  transition: color 0.15s;
+  font-weight: 550;
+  font-size: var(--t-sm);
+  white-space: nowrap;
+  transition: background 0.2s var(--ease), color 0.2s, box-shadow 0.2s;
 }
 .nav a:hover {
-  color: #fff;
+  color: var(--ink);
 }
 .nav a[aria-current="page"] {
-  color: #fff;
-}
-.nav a[aria-current="page"]::after {
-  content: "";
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: -3px;
-  height: 3px;
-  background: #fff;
-}
-.nav a:focus-visible,
-.marca:focus-visible,
-.btn-tema:focus-visible {
-  outline-color: var(--ouro);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgb(16 24 40 / 0.14), 0 0 0 0.5px var(--linha);
 }
 
 .topbar-meta {
@@ -98,30 +93,32 @@
 }
 .atualizado {
   font-size: var(--t-sm);
-  color: #c9d6ea;
+  color: var(--ink-3);
   display: inline-flex;
   align-items: center;
   gap: 8px;
   white-space: nowrap;
 }
 .atualizado strong {
-  color: #fff;
+  color: var(--ink);
   font-weight: 600;
-  font-size: var(--t-base);
 }
 .atualizado-ponto {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #43d083;
+  background: var(--verde-600);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--verde-600) 25%, transparent);
 }
 .btn-tema {
-  color: #fff;
-  border-color: rgb(255 255 255 / 0.28);
-  background: transparent;
+  border-radius: 999px;
+  border-color: transparent;
+  background: var(--surface-3);
+  color: var(--ink-2);
 }
-.btn-tema:hover {
-  background: rgb(255 255 255 / 0.12);
+.btn-tema:hover:not(:disabled) {
+  background: var(--linha-forte);
+  color: var(--ink);
 }
 
 /* ---------- Conteúdo ---------- */
@@ -130,7 +127,7 @@
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 28px 24px 56px;
+  padding: 32px 24px 56px;
 }
 .rodape {
   text-align: center;
@@ -140,17 +137,16 @@
 }
 
 .page-head {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 .page-head h1 {
-  font-family: var(--font-num);
   font-size: var(--t-xl);
   font-weight: 700;
-  letter-spacing: 0.005em;
+  letter-spacing: -0.025em;
   line-height: 1.15;
 }
 .page-head-sub {
-  margin-top: 4px;
+  margin-top: 6px;
   color: var(--ink-2);
   max-width: 78ch;
 }
@@ -159,8 +155,8 @@
 @media (max-width: 860px) {
   .topbar-in {
     flex-wrap: wrap;
-    gap: 0 16px;
-    padding: 8px 16px 0;
+    gap: 8px 16px;
+    padding: 10px 16px;
   }
   .topbar-meta {
     order: 2;
@@ -168,15 +164,13 @@
   .nav {
     order: 3;
     width: 100%;
+    margin: 0;
     overflow-x: auto;
-    min-height: 44px;
-    margin: 0 -4px;
   }
   .nav a {
     flex: 1;
     justify-content: center;
-    white-space: nowrap;
-    padding: 0 10px;
+    padding: 8px 10px;
   }
   .marca {
     margin-right: auto;
