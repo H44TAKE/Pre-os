@@ -25,11 +25,11 @@ export function BandeiraTag({ bandeira }: { bandeira: string | null }) {
 }
 
 /** Variação de preço: queda é boa (verde), alta é ruim (vermelho). */
-export function Delta({ valor }: { valor: number | null }) {
+export function Delta({ valor, contra = "desde a atualização anterior" }: { valor: number | null; contra?: string }) {
   if (valor === null) return <span className="muted">—</span>;
   if (valor === 0)
     return (
-      <span className="delta delta-zero" title="Sem variação desde a atualização anterior">
+      <span className="delta delta-zero" title={`Sem variação ${contra}`}>
         <Equal size={14} aria-hidden="true" />
         <span className="num">0,00</span>
       </span>
@@ -37,7 +37,7 @@ export function Delta({ valor }: { valor: number | null }) {
   const sobe = valor > 0;
   const Icone = sobe ? ArrowUpRight : ArrowDownRight;
   return (
-    <span className={`delta ${sobe ? "delta-up" : "delta-down"}`} title={sobe ? "Subiu desde a atualização anterior" : "Caiu desde a atualização anterior"}>
+    <span className={`delta ${sobe ? "delta-up" : "delta-down"}`} title={`${sobe ? "Subiu" : "Caiu"} ${contra}`}>
       <Icone size={14} aria-hidden="true" />
       <span className="num">{fmtDelta(valor)}</span>
     </span>

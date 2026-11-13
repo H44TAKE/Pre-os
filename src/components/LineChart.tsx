@@ -8,10 +8,14 @@ Chart.register(LineController, LineElement, PointElement, CategoryScale, LinearS
 export interface Serie {
   rotulo: string;
   dados: (number | null)[];
+  /** media/min/max são linhas da rede (destacada e tracejadas); posto usa a paleta */
+  tipo?: "media" | "min" | "max" | "posto";
 }
 
-const CORES_CLARO = ["#17498a", "#d99a00", "#00873f", "#c4372b", "#7a4fd0", "#0e8a96", "#d9622b", "#5b6f8a"];
-const CORES_ESCURO = ["#6fa8ff", "#ffc83d", "#3ecf7e", "#ff7b6e", "#b196ff", "#4fd0dc", "#ff9a63", "#9fb3cf"];
+const CORES_CLARO = ["#0a5cc7", "#d99a00", "#7a4fd0", "#0e8a96", "#c2418a", "#5b6f8a", "#8a5a2b", "#e07b00"];
+const CORES_ESCURO = ["#5aa2ff", "#ffc83d", "#b196ff", "#4fd0dc", "#f27cc0", "#9fb3cf", "#c9996a", "#ff9a3d"];
+const BOM = { claro: "#1b8a42", escuro: "#4cd380" };
+const RUIM = { claro: "#d93a30", escuro: "#ff7b6f" };
 
 export function LineChart({ rotulos, series, altura = 320, legenda = true }: { rotulos: string[]; series: Serie[]; altura?: number; legenda?: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -25,22 +29,20 @@ export function LineChart({ rotulos, series, altura = 320, legenda = true }: { r
     const grade = escuro ? "rgba(255,255,255,0.08)" : "rgba(15,42,77,0.08)";
     const texto = escuro ? "#a9b8cc" : "#4a5a70";
 
+    let nPosto = series.some((x) => x.tipo && x.tipo !== "posto") ? 1 : 0;
     const chart = new Chart(canvas, {
       type: "line",
       data: {
         labels: rotulos,
-        datasets: series.map((s, i) => ({
-          label: s.rotulo,
-          data: s.dados,
-          borderColor: cores[i % cores.length],
-          backgroundColor: cores[i % cores.length],
-          spanGaps: true,
-          tension: 0.25,
-          borderWidth: 2,
-          pointRadius: series.length > 1 ? 2.5 : 3.5,
-          pointHoverRadius: 5,
-          pointBorderWidth: 0,
-        })),
+        datasets: series.map((s) => {
+          const tipo = s.tipo ?? "posto";
+          if (tipo === "posto") {
+            const cor = cores[nPosto++ % cores.length];
+            return { label: s.rotulo, data: s.dados, borderColor: cor, backgroundColor: cor, spanGaps: true, tension: 0.25, borderWidth: 2, pointRadius: series.length > 1 ? 2.5 : 3.5, pointHoverRadius: 5, pointBorderWidth: 0 };
+          }
+          const cor = tipo === "media" ? cores[0] : tipo === "min" ? (escuro ? BOM.escuro : BOM.claro) : escuro ? RUIM.escuro : RUIM.claro;
+          return { label: s.rotulo, data: s.dados, borderColor: cor, backgroundColor: cor, spanGaps: true, tension: 0.3, borderWidth: tipo === "media" ? 3.5 : 1.5, borderDash: tipo === "media" ? [] : [5, 4], pointRadius: 0, pointHoverRadius: 4, pointBorderWidth: 0, order: tipo === "media" ? 0 : 1 };
+        }),
       },
       options: {
         responsive: true,
