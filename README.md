@@ -66,6 +66,14 @@ python scripts/atualizar_precos_portal.py                # grava public/data/pre
 
 O portal só informa a UF do posto, sem região do site (BA Norte/Sul, MG Norte/Centro/Sul) nem bandeira. Para postos que já existiam, o robô mantém esses dados do snapshot anterior. Postos novos aparecem no resumo como "a classificar"; para classificá-los, crie `scripts/postos_meta.json` com o nome normalizado como chave, por exemplo `{"EUCLIDES DA CUNHA 116": {"regiao": "BA-N", "bandeira": "BR", "nome": "Euclides da Cunha 116"}}`, e rode de novo. Se o robô não conseguir entrar, rode com `--mostrar` para ver a tela do login. Arquivos de apoio: `--json ARQ.json` usa uma resposta já salva.
 
+**Atualização automática (Windows)**: uma tarefa agendada roda o robô em dias úteis, às 14h20 e às 17h30. Se os preços mudaram, ela grava o snapshot, faz commit e envia à `main`, e o Vercel atualiza o site. Se aparecer posto novo sem classificação, ou o login falhar, ela não publica nada e registra o motivo em `scripts/atualizacao.log`. Para ativar (uma vez, com `scripts/.env` preenchido):
+
+```bash
+powershell -ExecutionPolicy Bypass -File scripts/agendar_windows.ps1 -Nome "Seu Nome" -Email "voce@exemplo.com"
+```
+
+O script cria uma cópia dedicada do repositório em `%LOCALAPPDATA%\PainelPrecosRedeHGepo` (a automação não mexe na pasta onde você trabalha) e copia o `scripts/.env` para lá. A tarefa só roda com você logado no Windows; se o PC estiver desligado no horário, roda ao ligar. Para rodar uma vez à mão: `python scripts/atualizar_e_publicar.py`. Para desativar: `Unregister-ScheduledTask -TaskName PainelPrecosRedeHG-AtualizarPrecos -Confirm:$false`.
+
 **Preços por planilha** (alternativa; planilha `.xlsx`, aba `A VISTA`):
 
 ```bash

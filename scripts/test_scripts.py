@@ -4,6 +4,7 @@ Rodar: python -m unittest discover -s scripts -p "test_*.py"
 """
 import unittest
 
+import atualizar_e_publicar as pub
 import atualizar_precos_portal as pp
 import importar_abastecimentos as ab
 import importar_precos as pr
@@ -146,6 +147,58 @@ class Portal(unittest.TestCase):
         extras = [{"POSTO": "POSTO ALAGOAS 101", "UF": "AL"}, {"POSTO": "", "UF": "AL"}]
         snap, rel = pp.converter(self.api(extras=extras), self.ANTERIOR, {})
         self.assertEqual(rel["total"], 3)
+
+
+class ModoAutomatico(unittest.TestCase):
+    def snap(self, s10):
+        return {"regioes": [{"sigla": "AL", "nome": "Alagoas", "postos": [{"nome": "Alagoas 101", "rodovia": "", "cidade": "", "s500": 7.19, "s10": s10, "bandeira": "BR"}]}]}
+
+    def test_mudou_detecta_preco_e_ignora_ordem_e_regiao(self):
+        self.assertFalse(pp.mudou(self.snap(6.99), self.snap(6.99)))
+        self.assertTrue(pp.mudou(self.snap(7.46), self.snap(6.99)))
+        self.assertTrue(pp.mudou(self.snap(6.99), {"regioes": []}))
+
+
+class Publicar(unittest.TestCase):
+    """Usa um repositório 'origem' temporário no disco; nada vai para o GitHub."""
+
+    def setUp(self):
+        import subprocess
+        import tempfile
+        from pathlib import Path
+
+        self.tmp = tempfile.TemporaryDirectory()
+        base = Path(self.tmp.name)
+        self.origem = base / "origem.git"
+        self.clone = base / "clone"
+        run = lambda *a, cwd=None: subprocess.run(a, cwd=cwd, check=True, capture_output=True, text=True, encoding="utf8", errors="replace")
+        run("git", "init", "--bare", "-b", "main", str(self.origem))
+        run("git", "clone", str(self.origem), str(self.clone))
+        run("git", "config", "user.name", "Teste", cwd=self.clone)
+        run("git", "config", "user.email", "teste@example.com", cwd=self.clone)
+        (self.clone / "public/data/precos").mkdir(parents=True)
+        (self.clone / "public/data/precos/a.json").write_text("{}")
+        run("git", "add", "-A", cwd=self.clone)
+        run("git", "commit", "-m", "base", cwd=self.clone)
+        run("git", "push", "origin", "HEAD:main", cwd=self.clone)
+        self.run = run
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_sem_mudanca_nao_publica(self):
+        publicou, detalhe = pub.publicar(self.clone, "main", "x")
+        self.assertEqual((publicou, detalhe), (False, "nada a publicar"))
+
+    def test_com_mudanca_commita_e_envia_so_a_pasta_de_dados(self):
+        (self.clone / "public/data/precos/b.json").write_text('{"novo": true}')
+        (self.clone / "outro.txt").write_text("nao deve entrar")
+        publicou, _ = pub.publicar(self.clone, "main", "Preços de teste")
+        self.assertTrue(publicou)
+        log = self.run("git", "log", "--oneline", "main", cwd=self.origem).stdout
+        self.assertIn("Preços de teste", log)
+        arquivos = self.run("git", "show", "--name-only", "--format=", "main", cwd=self.origem).stdout.split()
+        self.assertEqual(arquivos, ["public/data/precos/b.json"])
 
 
 if __name__ == "__main__":

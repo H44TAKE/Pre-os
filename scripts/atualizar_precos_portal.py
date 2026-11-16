@@ -5,6 +5,10 @@ Uso:
     python scripts/atualizar_precos_portal.py --sem-gravar     # só mostra o que mudaria
     python scripts/atualizar_precos_portal.py --mostrar        # abre o navegador à vista (para depurar o login)
     python scripts/atualizar_precos_portal.py --json ARQ.json  # usa uma resposta já salva, sem entrar no portal
+    python scripts/atualizar_precos_portal.py --automatico     # modo do agendador (veja abaixo)
+
+Modo --automatico: só grava se algum preço mudou desde o último snapshot e se recusa a gravar
+(código de saída 3) quando aparece posto novo sem região/bandeira em scripts/postos_meta.json.
 
 O login fica no arquivo scripts/.env (veja scripts/.env.example), que o Git ignora.
 Só lê: o robô faz login, abre a tela Comercial e captura a resposta que o próprio portal pede.
@@ -116,6 +120,14 @@ def converter(linhas: list[dict], anterior: dict, meta: dict) -> tuple[dict, dic
     return {"atualizadoEm": "", "regioes": regioes}, relatorio
 
 
+def mudou(snapshot: dict, base: dict) -> bool:
+    """True se algum posto entrou, saiu ou trocou de preço em relação ao snapshot-base."""
+    def mapa(s: dict) -> dict:
+        return {normalizar(p["nome"]): (p["s500"], p["s10"]) for r in s.get("regioes", []) for p in r["postos"]}
+
+    return mapa(snapshot) != mapa(base)
+
+
 # ---------------------------------------------------------------- leitura do portal (rede)
 
 def carregar_credenciais() -> tuple[str, str, str]:
@@ -183,6 +195,7 @@ def main() -> None:
     ap.add_argument("--json", help="usa um JSON já salvo em vez de entrar no portal")
     ap.add_argument("--mostrar", action="store_true", help="abre o navegador à vista")
     ap.add_argument("--sem-gravar", action="store_true", help="só mostra o resumo, sem gravar")
+    ap.add_argument("--automatico", action="store_true", help="modo do agendador: só grava se algo mudou e recusa postos novos sem classificação")
     args = ap.parse_args()
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", args.data):
         sys.exit("--data deve estar no formato AAAA-MM-DD")
@@ -198,6 +211,8 @@ def main() -> None:
     anteriores = [d for d in idx["snapshots"] if d < args.data]
     anterior = ler_json(DADOS / "precos" / f"{anteriores[-1]}.json") if anteriores else {"regioes": []}
     anterior_total = sum(len(r["postos"]) for r in anterior["regioes"])
+    ultimos = [d for d in idx["snapshots"] if d <= args.data]
+    ultimo = ler_json(DADOS / "precos" / f"{ultimos[-1]}.json") if ultimos else {"regioes": []}
     meta = ler_json(ARQ_META) if ARQ_META.exists() else {}
 
     snapshot, relatorio = converter(linhas, anterior, meta)
@@ -205,6 +220,13 @@ def main() -> None:
         sys.exit(f"Resposta suspeita: só {relatorio['total']} postos (antes: {anterior_total}). Nada foi gravado.")
     snapshot["atualizadoEm"] = args.data
     mostrar(relatorio, anterior_total)
+    if args.automatico:
+        if relatorio["novos"]:
+            print("Há posto novo a classificar em scripts/postos_meta.json. Nada foi gravado.", file=sys.stderr)
+            sys.exit(3)
+        if not mudou(snapshot, ultimo):
+            print("Sem mudanças desde o último snapshot. Nada gravado.")
+            return
     if args.sem_gravar:
         print("Nada gravado (--sem-gravar).")
         return
