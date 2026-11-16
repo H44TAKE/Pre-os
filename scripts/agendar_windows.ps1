@@ -4,8 +4,8 @@
 #   powershell -ExecutionPolicy Bypass -File scripts\agendar_windows.ps1 -Nome "Seu Nome" -Email "voce@exemplo.com"
 #
 # O que faz:
-#   1. Cria uma copia dedicada do repositorio em %LOCALAPPDATA%\PainelPrecosRedeHG\repo, para a automacao
-#      nunca mexer na pasta onde voce trabalha.
+#   1. Cria uma copia dedicada do repositorio em Documents\PainelPrecosRedeHG-automacao (ou na pasta dada em
+#      -Pasta), para a automacao nunca mexer na pasta onde voce trabalha.
 #   2. Copia scripts\.env (login do portal) para essa copia. O Git ignora esse arquivo.
 #   3. Registra a tarefa agendada, que roda scripts\atualizar_e_publicar.py nos horarios escolhidos.
 # A tarefa roda enquanto voce estiver logado no Windows; se o PC estiver desligado no horario, roda ao ligar.
@@ -15,6 +15,7 @@ param(
   [Parameter(Mandatory = $true)][string]$Nome,
   [Parameter(Mandatory = $true)][string]$Email,
   [string]$Repositorio = "https://github.com/H44TAKE/Pre-os.git",
+  [string]$Pasta = (Join-Path $env:USERPROFILE "Documents\PainelPrecosRedeHG-automacao"),
   [string[]]$Horarios = @("14:20", "17:30"),
   [string]$NomeTarefa = "PainelPrecosRedeHG-AtualizarPrecos"
 )
@@ -23,10 +24,9 @@ $ErrorActionPreference = "Stop"
 $envOrigem = Join-Path $PSScriptRoot ".env"
 if (-not (Test-Path $envOrigem)) { throw "Nao achei scripts\.env. Copie scripts\.env.example para scripts\.env e preencha o login do portal." }
 
-$pasta = Join-Path $env:LOCALAPPDATA "PainelPrecosRedeHG\repo"
-if (-not (Test-Path (Join-Path $pasta ".git"))) {
-  New-Item -ItemType Directory -Force (Split-Path $pasta) | Out-Null
-  git clone $Repositorio $pasta
+if (-not (Test-Path (Join-Path $Pasta ".git"))) {
+  New-Item -ItemType Directory -Force (Split-Path $Pasta) | Out-Null
+  git clone $Repositorio $Pasta
   if ($LASTEXITCODE -ne 0) { throw "Falha ao clonar $Repositorio" }
 }
 git -C $pasta config user.name $Nome
