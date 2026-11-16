@@ -72,7 +72,7 @@ O portal só informa a UF do posto, sem região do site (BA Norte/Sul, MG Norte/
 powershell -ExecutionPolicy Bypass -File scripts/agendar_windows.ps1 -Nome "Seu Nome" -Email "voce@exemplo.com"
 ```
 
-O script cria uma cópia dedicada do repositório em `%LOCALAPPDATA%\PainelPrecosRedeHGepo` (a automação não mexe na pasta onde você trabalha) e copia o `scripts/.env` para lá. A tarefa só roda com você logado no Windows; se o PC estiver desligado no horário, roda ao ligar. Para rodar uma vez à mão: `python scripts/atualizar_e_publicar.py`. Para desativar: `Unregister-ScheduledTask -TaskName PainelPrecosRedeHG-AtualizarPrecos -Confirm:$false`.
+O script cria uma cópia dedicada do repositório em `%LOCALAPPDATA%\PainelPrecosRedeHG\repo` (a automação não mexe na pasta onde você trabalha) e copia o `scripts/.env` para lá. A tarefa só roda com você logado no Windows; se o PC estiver desligado no horário, roda ao ligar. Para rodar uma vez à mão: `python scripts/atualizar_e_publicar.py`. Para desativar: `Unregister-ScheduledTask -TaskName PainelPrecosRedeHG-AtualizarPrecos -Confirm:$false`.
 
 **Preços por planilha** (alternativa; planilha `.xlsx`, aba `A VISTA`):
 
