@@ -54,7 +54,27 @@ tests/                 testes unitários e de paridade com os dados reais
 
 Rode a partir da raiz do projeto. Coloque os arquivos de origem em `scripts/entrada/` (crie a pasta; ela é ignorada pelo Git).
 
-**Preços** (planilha `.xlsx`, aba `A VISTA`):
+**Preços direto do portal (recomendado)**: o robô entra no portal Gestão de Abastecimentos, abre a tela Comercial e grava o snapshot de hoje.
+
+1. Uma vez só: copie `scripts/.env.example` para `scripts/.env` e preencha `PORTAL_USUARIO` e `PORTAL_SENHA`. O Git ignora esse arquivo, então a senha nunca vai para o GitHub. Também precisa do Google Chrome instalado e de `pip install playwright`.
+2. Para atualizar:
+
+```bash
+python scripts/atualizar_precos_portal.py --sem-gravar   # só mostra o que mudaria
+python scripts/atualizar_precos_portal.py                # grava public/data/precos/<hoje>.json
+```
+
+O portal só informa a UF do posto, sem região do site (BA Norte/Sul, MG Norte/Centro/Sul) nem bandeira. Para postos que já existiam, o robô mantém esses dados do snapshot anterior. Postos novos aparecem no resumo como "a classificar"; para classificá-los, crie `scripts/postos_meta.json` com o nome normalizado como chave, por exemplo `{"EUCLIDES DA CUNHA 116": {"regiao": "BA-N", "bandeira": "BR", "nome": "Euclides da Cunha 116"}}`, e rode de novo. Se o robô não conseguir entrar, rode com `--mostrar` para ver a tela do login. Arquivos de apoio: `--json ARQ.json` usa uma resposta já salva.
+
+**Atualização automática (Windows)**: uma tarefa agendada roda o robô em dias úteis, às 14h20 e às 17h30. Se os preços mudaram, ela grava o snapshot, faz commit e envia à `main`, e o Vercel atualiza o site. Se aparecer posto novo sem classificação, ou o login falhar, ela não publica nada e registra o motivo em `scripts/atualizacao.log`. Para ativar (uma vez, com `scripts/.env` preenchido):
+
+```bash
+powershell -ExecutionPolicy Bypass -File scripts/agendar_windows.ps1 -Nome "Seu Nome" -Email "voce@exemplo.com"
+```
+
+O script cria uma cópia dedicada do repositório em `%LOCALAPPDATA%\PainelPrecosRedeHGepo` (a automação não mexe na pasta onde você trabalha) e copia o `scripts/.env` para lá. A tarefa só roda com você logado no Windows; se o PC estiver desligado no horário, roda ao ligar. Para rodar uma vez à mão: `python scripts/atualizar_e_publicar.py`. Para desativar: `Unregister-ScheduledTask -TaskName PainelPrecosRedeHG-AtualizarPrecos -Confirm:$false`.
+
+**Preços por planilha** (alternativa; planilha `.xlsx`, aba `A VISTA`):
 
 ```bash
 python scripts/importar_precos.py scripts/entrada/precos.xlsx --data 2026-11-20
