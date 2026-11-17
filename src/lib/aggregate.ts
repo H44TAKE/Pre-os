@@ -57,7 +57,8 @@ export function datasAtivas(agg: AggPosto[]): string[] {
 }
 
 /** Lista unificada: tabela de preços + postos que só existem no histórico. */
-export function montarPostos(atual: SnapshotPrecos, anterior: SnapshotPrecos | null, dados: DadosAbastecimento): Posto[] {
+export function montarPostos(atual: SnapshotPrecos, anterior: SnapshotPrecos | null, dados: DadosAbastecimento, naoAbastecemos: string[] = []): Posto[] {
+  const bloqueados = new Set(naoAbastecemos.map(normalizeForMatch));
   const estabs = resumoEstabelecimentos(dados.rows);
   const porMatch = new Map<string, EstabResumo>();
   for (const e of estabs) porMatch.set(normalizeForMatch(e.nome), e);
@@ -85,6 +86,7 @@ export function montarPostos(atual: SnapshotPrecos, anterior: SnapshotPrecos | n
         deltaS10: prev != null && p.s10 != null ? Math.round((p.s10 - prev) * 100) / 100 : null,
         histKey: m?.key ?? null,
         foraDaTabela: false,
+        naoAbastece: bloqueados.has(normalizeForMatch(p.nome)),
       });
     }
   }
@@ -103,6 +105,7 @@ export function montarPostos(atual: SnapshotPrecos, anterior: SnapshotPrecos | n
       deltaS10: null,
       histKey: e.key,
       foraDaTabela: true,
+      naoAbastece: bloqueados.has(normalizeForMatch(e.nome)),
     });
   }
   return postos;

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { X } from "lucide-react";
+import { Ban, X } from "lucide-react";
 import { useDataset } from "../lib/data";
 import { buildAgg } from "../lib/aggregate";
 import { fmtBRL, fmtDateLong, fmtDateShort } from "../lib/format";
@@ -88,6 +88,12 @@ export function PostoDrawer({ posto, onClose }: { posto: Posto | null; onClose: 
               <X size={18} aria-hidden="true" />
             </button>
           </header>
+
+          {posto.naoAbastece && (
+            <p className="aviso-posto">
+              <Ban size={16} aria-hidden="true" /> A rede não abastece mais neste posto.
+            </p>
+          )}
 
           {posto.foraDaTabela ? (
             <p className="aviso">Este posto aparece no histórico de abastecimentos, mas não está na tabela de preços atual. Sem preço de referência.</p>

@@ -47,6 +47,12 @@ describe("dados reais", () => {
   it("ids são únicos", () => {
     expect(new Set(postos.map((p) => p.id)).size).toBe(postos.length);
   });
+  it("marca só os postos listados em avisos.json como 'não abastecemos mais'", () => {
+    const { naoAbastecemos } = ler<{ naoAbastecemos: string[] }>("avisos.json");
+    const marcados = montarPostos(snap, null, dados, naoAbastecemos).filter((p) => p.naoAbastece && !p.foraDaTabela);
+    expect(marcados.map((p) => p.nome).sort()).toEqual(["Anel Viário", "Grande Vale", "Grão de Ouro", "MOC", "Novo Ponto", "Parceiro", "Santo Antônio", "Uirapuru"]);
+    expect(postos.some((p) => p.naoAbastece)).toBe(false); // sem a lista, ninguém é marcado
+  });
   it("KPIs coerentes", () => {
     const k = calcularKpis(postos);
     expect(k.total).toBe(48);

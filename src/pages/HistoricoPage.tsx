@@ -8,7 +8,7 @@ import { norm } from "../lib/match";
 import { useVisibilidade } from "../lib/storage";
 import { useFiltroHist } from "../hooks/useFiltroHist";
 import { useParams2 } from "../hooks/useParam";
-import { Chips, Delta, PageHead, Switch, Vazio } from "../components/ui";
+import { AvisoNaoAbastece, Chips, Delta, PageHead, Switch, Vazio } from "../components/ui";
 import { LineChart } from "../components/LineChart";
 import { Sparkline } from "../components/Sparkline";
 
@@ -75,6 +75,7 @@ export function HistoricoPage() {
     if (p) set({ posto: p.id }, { push: true });
   };
 
+  const bloqueados = useMemo(() => new Set(postos.filter((p) => p.naoAbastece && p.histKey).map((p) => p.histKey as string)), [postos]);
   const agg = useMemo(() => buildAgg(rows, servico), [rows, servico]);
   const todosPostos = useMemo(() => resumoEstabelecimentos(abastecimentos.rows), [abastecimentos]);
   const visiveis = useMemo(() => agg.filter((e) => !vis.ocultos.has(e.key)), [agg, vis.ocultos]);
@@ -221,6 +222,7 @@ export function HistoricoPage() {
                         <button type="button" className="link-posto" onClick={() => abrirPosto(s.key)} title={`Ver detalhes de ${s.nome}`}>
                           {s.nome}
                         </button>
+                        {bloqueados.has(s.key) && <AvisoNaoAbastece />}
                         <span className="sub">último em {fmtDateShort(s.ultimaData)}</span>
                       </th>
                       <td className="col-num col-opc num">{s.count}</td>

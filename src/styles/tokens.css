@@ -28,6 +28,8 @@
   --ruim: var(--vermelho-600);
   --ruim-suave: #fdeceb;
   --foco: #1d6fe0;
+  --aviso: #8a5a00;
+  --aviso-suave: #fff3d1;
 
   --vidro: rgb(255 255 255 / 0.72);
   --sombra-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 4px 16px rgb(16 24 40 / 0.05);
@@ -68,6 +70,8 @@
   --ruim: #ff7b6f;
   --ruim-suave: #3a1c1f;
   --foco: #7db6ff;
+  --aviso: #ffc83d;
+  --aviso-suave: #3a2d0c;
   --vidro: rgb(28 28 30 / 0.72);
   --sombra-card: 0 0 0 1px rgb(255 255 255 / 0.04);
   --sombra-gaveta: -16px 0 48px -12px rgb(0 0 0 / 0.7);
