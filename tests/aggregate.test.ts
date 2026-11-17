@@ -42,7 +42,8 @@ describe("dados reais", () => {
   it("mantém 48 postos na tabela e não perde os 965 abastecimentos originais", () => {
     expect(postos.filter((p) => !p.foraDaTabela)).toHaveLength(48);
     expect(dados.rows.length).toBeGreaterThanOrEqual(965);
-    expect(dados.rows.filter((r) => r.dataISO <= "2026-10-29")).toHaveLength(965);
+    // relatórios novos podem completar dias antigos, nunca reduzir
+    expect(dados.rows.filter((r) => r.dataISO <= "2026-10-29").length).toBeGreaterThanOrEqual(965);
   });
   it("ids são únicos", () => {
     expect(new Set(postos.map((p) => p.id)).size).toBe(postos.length);
