@@ -47,6 +47,8 @@ export interface Posto {
   deltaS10: number | null;
   histKey: string | null;
   foraDaTabela: boolean;
+  /** a rede não abastece mais neste posto (lista em public/data/avisos.json) */
+  naoAbastece: boolean;
 }
 
 export interface AggPosto {

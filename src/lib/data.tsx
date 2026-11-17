@@ -32,12 +32,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const idx = await getJson<{ snapshots: string[] }>("/data/precos/index.json");
         const datas = [...idx.snapshots].sort();
         if (!datas.length) throw new Error("Nenhum snapshot de preços encontrado.");
-        const [atual, anterior, abastecimentos] = await Promise.all([
+        const [atual, anterior, abastecimentos, avisos] = await Promise.all([
           getJson<SnapshotPrecos>(`/data/precos/${datas[datas.length - 1]}.json`),
           datas.length > 1 ? getJson<SnapshotPrecos>(`/data/precos/${datas[datas.length - 2]}.json`) : Promise.resolve(null),
           getJson<DadosAbastecimento>("/data/abastecimentos.json"),
+          // os avisos são opcionais: sem o arquivo, nenhum posto recebe etiqueta
+          getJson<{ naoAbastecemos: string[] }>("/data/avisos.json").catch(() => ({ naoAbastecemos: [] as string[] })),
         ]);
-        const postos = montarPostos(atual, anterior, abastecimentos);
+        const postos = montarPostos(atual, anterior, abastecimentos, avisos.naoAbastecemos);
         if (!cancelado) setEstado({ status: "ok", dataset: { atual, anterior, abastecimentos, postos, kpis: calcularKpis(postos) } });
       } catch (e) {
         if (!cancelado) setEstado({ status: "erro", mensagem: e instanceof Error ? e.message : "Erro desconhecido ao carregar os dados." });

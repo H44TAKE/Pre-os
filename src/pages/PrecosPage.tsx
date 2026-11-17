@@ -5,7 +5,7 @@ import { fmtBRL, fmtNum, plural } from "../lib/format";
 import { norm } from "../lib/match";
 import type { Posto } from "../lib/types";
 import { useParams2 } from "../hooks/useParam";
-import { BandeiraTag, Chips, Delta, PageHead, Vazio } from "../components/ui";
+import { AvisoNaoAbastece, BandeiraTag, Chips, Delta, PageHead, Vazio } from "../components/ui";
 
 type Ordem = "regiao" | "menor" | "maior" | "nome";
 const ORDENS: { valor: Ordem; rotulo: string }[] = [
@@ -92,11 +92,12 @@ function Linha({ p, mostrarRegiao, melhor, comVariacao }: { p: Posto; mostrarReg
   const { set } = useParams2();
   const abrir = () => set({ posto: p.id }, { push: true });
   return (
-    <tr className="linha-posto" onClick={abrir}>
+    <tr className={`linha-posto${p.naoAbastece ? " nao-abastece" : ""}`} onClick={abrir}>
       <th scope="row" className="col-posto">
         <button type="button" className="link-posto" onClick={(e) => { e.stopPropagation(); abrir(); }} aria-label={`Ver detalhes de ${p.nome}`}>
           {p.nome}
         </button>
+        {p.naoAbastece && <AvisoNaoAbastece />}
         <span className="sub">
           {p.cidade}
           {mostrarRegiao && ` · ${p.regiaoSigla}`}
@@ -109,7 +110,7 @@ function Linha({ p, mostrarRegiao, melhor, comVariacao }: { p: Posto; mostrarReg
       <td className="col-preco num">{p.s500 === null ? <span className="muted">—</span> : fmtNum(p.s500)}</td>
       <td className="col-preco col-s10 num">
         {p.s10 === null ? <span className="muted">—</span> : fmtNum(p.s10)}
-        {melhor && <span className="selo-barato">mais barato</span>}
+        {melhor && !p.naoAbastece && <span className="selo-barato">mais barato</span>}
       </td>
       {comVariacao && (
         <td className="col-delta">

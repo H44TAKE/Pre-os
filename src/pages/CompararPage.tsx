@@ -5,7 +5,7 @@ import { buildAgg } from "../lib/aggregate";
 import { fmtBRL, fmtNum } from "../lib/format";
 import type { AggPosto, Posto } from "../lib/types";
 import { useParams2 } from "../hooks/useParam";
-import { BandeiraTag, PageHead } from "../components/ui";
+import { AvisoNaoAbastece, BandeiraTag, PageHead } from "../components/ui";
 import { RecordsList } from "../components/RecordsList";
 
 function Seletor({ id, rotulo, valor, onChange }: { id: string; rotulo: string; valor: string; onChange: (v: string) => void }) {
@@ -44,6 +44,7 @@ function Lado({ lado, posto, agg }: { lado: "A" | "B"; posto: Posto; agg: AggPos
       <header>
         <span className="cmp-lado">Posto {lado}</span>
         <h2>{posto.nome}</h2>
+        {posto.naoAbastece && <AvisoNaoAbastece />}
         <p className="muted">{posto.foraDaTabela ? "Fora da tabela de preços" : `${posto.cidade} · ${posto.regiaoNome}`}</p>
       </header>
 

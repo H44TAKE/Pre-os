@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowUpRight, Equal } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Ban, Equal } from "lucide-react";
 import type { ReactNode } from "react";
 import { fmtDelta } from "../lib/format";
 
@@ -20,6 +20,16 @@ export function BandeiraTag({ bandeira }: { bandeira: string | null }) {
     <span className="bandeira">
       <span className="bandeira-dot" style={{ background: corBandeira(bandeira) }} aria-hidden="true" />
       {bandeira}
+    </span>
+  );
+}
+
+/** Etiqueta de aviso para postos em que a rede não abastece mais. */
+export function AvisoNaoAbastece() {
+  return (
+    <span className="selo-aviso" title="A rede não abastece mais neste posto">
+      <Ban size={12} aria-hidden="true" />
+      Não abastecemos mais
     </span>
   );
 }
