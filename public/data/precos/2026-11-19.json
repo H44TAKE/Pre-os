@@ -51,7 +51,7 @@
      "nome": "Barreiras",
      "rodovia": "BR 242 / KM 740",
      "cidade": "Catolândia",
-     "s500": 8.05,
+     "s500": 7.96,
      "s10": 6.99,
      "bandeira": "BR"
     },
@@ -59,7 +59,7 @@
      "nome": "Bendego",
      "rodovia": "BR 116 / KM 154",
      "cidade": "Canudos",
-     "s500": 7.81,
+     "s500": 7.72,
      "s10": 7.87,
      "bandeira": "BR"
     },
@@ -67,23 +67,23 @@
      "nome": "Colonial 101",
      "rodovia": "BR 101 / KM 294",
      "cidade": "Laje",
-     "s500": 9.03,
-     "s10": 9.02,
+     "s500": 8.94,
+     "s10": 8.93,
      "bandeira": "BR"
     },
     {
      "nome": "Euclides Da Cunha 116",
      "rodovia": "ROD BR 116",
      "cidade": "Euclides Da Cunha",
-     "s500": 6.91,
-     "s10": 7.01,
+     "s500": 6.82,
+     "s10": 6.92,
      "bandeira": "REDE HG"
     },
     {
      "nome": "Feira 101",
      "rodovia": "BR 101 / KM 179",
      "cidade": "São Gonçalo dos Campos",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 7.92,
      "bandeira": "IPIRANGA"
     },
@@ -91,7 +91,7 @@
      "nome": "Grande Vale",
      "rodovia": "BR 116 / KM 630",
      "cidade": "Jaguaquara",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 8.07,
      "bandeira": "BR"
     },
@@ -99,7 +99,7 @@
      "nome": "Grão de Ouro",
      "rodovia": "BR 116 / KM 443",
      "cidade": "Antônio Cardoso",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 8.7,
      "bandeira": "BR"
     },
@@ -107,15 +107,15 @@
      "nome": "Itabuna",
      "rodovia": "BR 101 / KM 513",
      "cidade": "Itabuna",
-     "s500": 9.03,
-     "s10": 9.02,
+     "s500": 8.94,
+     "s10": 8.93,
      "bandeira": "LARCO"
     },
     {
      "nome": "Maracanã",
      "rodovia": "BR 116 / KM 484",
      "cidade": "Rafael Jambeiro",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 8.6,
      "bandeira": "BR"
     },
@@ -123,7 +123,7 @@
      "nome": "Novo Ponto",
      "rodovia": "BR 116 / KM 562",
      "cidade": "Brejões",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 7.96,
      "bandeira": "REDE HG"
     },
@@ -131,7 +131,7 @@
      "nome": "Papa Léguas III",
      "rodovia": "BR 116 / KM 522",
      "cidade": "Itatim",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 7.86,
      "bandeira": "REDE HG"
     },
@@ -139,7 +139,7 @@
      "nome": "Parque dos Coqueiros",
      "rodovia": "BR 116 / KM 530",
      "cidade": "Itatim",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 7.92,
      "bandeira": "SHELL"
     },
@@ -155,7 +155,7 @@
      "nome": "Santo Antônio",
      "rodovia": "BR 101 / KM 299",
      "cidade": "Valença",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 8.17,
      "bandeira": "BR"
     },
@@ -163,7 +163,7 @@
      "nome": "Uirapuru",
      "rodovia": "BR 116 / KM 553",
      "cidade": "Itatim",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 7.92,
      "bandeira": "BR"
     }
@@ -177,7 +177,7 @@
      "nome": "Anel Viário",
      "rodovia": "Av. Anel do Contorno / N°1000",
      "cidade": "Vitória da Conquista",
-     "s500": 7.81,
+     "s500": 7.72,
      "s10": 8.17,
      "bandeira": "BR"
     },
@@ -185,7 +185,7 @@
      "nome": "Cândido Sales",
      "rodovia": "BR 116 / KM 900",
      "cidade": "Candido Sales",
-     "s500": 7.81,
+     "s500": 7.72,
      "s10": 7.97,
      "bandeira": "BR"
     },
@@ -193,7 +193,7 @@
      "nome": "Caravelas",
      "rodovia": "BR 101 / KM 892",
      "cidade": "Caravelas",
-     "s500": 7.81,
+     "s500": 7.72,
      "s10": 8.81,
      "bandeira": "SHELL"
     },
@@ -201,7 +201,7 @@
      "nome": "Parceiro",
      "rodovia": "BR 101 / KM 709",
      "cidade": "Eunápolis",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 8.92,
      "bandeira": "IPIRANGA"
     },
@@ -209,7 +209,7 @@
      "nome": "São Marcos",
      "rodovia": "BR 116 / KM 835",
      "cidade": "Vitória da Conquista",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 8.17,
      "bandeira": "BR"
     },
@@ -217,7 +217,7 @@
      "nome": "Ultra",
      "rodovia": "BR 116 / KM 785",
      "cidade": "Planalto",
-     "s500": 9.03,
+     "s500": 8.94,
      "s10": 8.71,
      "bandeira": "BR"
     }
