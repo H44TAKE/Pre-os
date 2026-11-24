@@ -8,6 +8,7 @@ import atualizar_e_publicar as pub
 import atualizar_precos_portal as pp
 import importar_abastecimentos as ab
 import importar_precos as pr
+import importar_precos_pdf as pdf
 from comum import achar_coluna, numero
 
 
@@ -157,6 +158,85 @@ class ModoAutomatico(unittest.TestCase):
         self.assertFalse(pp.mudou(self.snap(6.99), self.snap(6.99)))
         self.assertTrue(pp.mudou(self.snap(7.46), self.snap(6.99)))
         self.assertTrue(pp.mudou(self.snap(6.99), {"regioes": []}))
+
+
+class PrecosPdf(unittest.TestCase):
+    CAB = ["", "", "", "S-500", "S-10", "S-10 ADIT", "ARLA 32", "GAS COM", "GAS ADT", "ETANOL", "GNV", "BANDEIRA", "CONTATO"]
+
+    def linha(self, nome, s500, s10, bandeira="BR", rodovia="BR 101 / KM 1", cidade="Cidade"):
+        return [nome, rodovia, cidade, s500, s10, "-", "R$ 3,99", "R$ 6,69", "R$ 6,79", "R$ 5,24", "R$ -", bandeira, "Fulano\n77 9999-0000"]
+
+    def tabelas(self):
+        titulo = ["24/11/2026 PREÇOS - À VISTA"] + [""] * 12
+        primeira = ["OLEO\nAL", "", "", "DIESEL B\nS-500", "S-10"] + [""] * 8  # cabeçalho embaralhado da 1ª região
+        return [[
+            titulo,
+            primeira,
+            self.linha("ALAGOAS 101", "R$ 7,19", "R$ 6,89"),
+            ["BA SUL"] + self.CAB[1:],
+            self.linha("ANEL VIÁRIO", "R$ 6,89", "R$ 6,99"),
+            self.linha("LAJINHA", "R$ 6,49", "-", "IPIRANGA"),
+            ["TO"] + self.CAB[1:],
+            self.linha("TALISMA", "-", "R$ 6,59", "IPIRANGA"),
+        ]]
+
+    def base(self):
+        mk = lambda nome, s500, s10: {"nome": nome, "rodovia": "r", "cidade": "c", "s500": s500, "s10": s10, "bandeira": "BR"}
+        return {"regioes": [
+            {"sigla": "AL", "nome": "Alagoas", "postos": [mk("Alagoas 101", 8.17, 7.46)]},
+            {"sigla": "BA-S", "nome": "Bahia Sul", "postos": [mk("Anel Viário", 7.0, 7.0), mk("Só no portal", 9.0, 9.0)]},
+        ]}
+
+    def test_extrai_regioes_inclusive_a_do_cabecalho_embaralhado(self):
+        ls = pdf.extrair_linhas(self.tabelas())
+        self.assertEqual([(l["POSTO"], l["regiao"]) for l in ls], [("ALAGOAS 101", "AL"), ("ANEL VIÁRIO", "BA SUL"), ("LAJINHA", "BA SUL"), ("TALISMA", "TO")])
+        self.assertEqual((ls[0]["s500"], ls[0]["s10"], ls[0]["bandeira"]), (7.19, 6.89, "BR"))
+
+    def test_traco_no_pdf_vira_sem_preco(self):
+        ls = {l["POSTO"]: l for l in pdf.extrair_linhas(self.tabelas())}
+        self.assertIsNone(ls["LAJINHA"]["s10"])
+        self.assertIsNone(ls["TALISMA"]["s500"])
+
+    def test_sobrepor_atualiza_precos_e_mantem_quem_nao_esta_no_pdf(self):
+        snap, rel = pdf.sobrepor(self.base(), pdf.extrair_linhas(self.tabelas()))
+        precos = {p["nome"]: (p["s500"], p["s10"]) for r in snap["regioes"] for p in r["postos"]}
+        self.assertEqual(precos["Alagoas 101"], (7.19, 6.89))
+        self.assertEqual(precos["Anel Viário"], (6.89, 6.99))
+        self.assertEqual(precos["Só no portal"], (9.0, 9.0))
+        self.assertEqual(rel["mantidos"], ["Só no portal"])
+        self.assertEqual(rel["mudaram"], ["Alagoas 101", "Anel Viário"])
+
+    def test_posto_do_pdf_desconhecido_entra_com_regiao_e_bandeira_do_pdf(self):
+        snap, rel = pdf.sobrepor(self.base(), pdf.extrair_linhas(self.tabelas()))
+        to = next(r for r in snap["regioes"] if r["sigla"] == "TO")
+        self.assertEqual((to["postos"][0]["nome"], to["postos"][0]["bandeira"], to["postos"][0]["s10"]), ("Talisma", "IPIRANGA", 6.59))
+        lajinha = next(p for r in snap["regioes"] for p in r["postos"] if p["nome"] == "Lajinha")
+        self.assertEqual(lajinha["bandeira"], "IPIRANGA")
+        self.assertEqual(sorted(rel["novos"]), ["Lajinha", "Talisma"])
+
+    def test_base_nao_e_alterada(self):
+        base = self.base()
+        pdf.sobrepor(base, pdf.extrair_linhas(self.tabelas()))
+        self.assertEqual(base["regioes"][0]["postos"][0]["s10"], 7.46)
+
+    def test_robo_nao_sobrescreve_snapshot_do_dia_vindo_de_pdf(self):
+        import json
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "precos").mkdir()
+            antigo = pp.DADOS
+            pp.DADOS = Path(tmp)
+            try:
+                (Path(tmp) / "precos" / "2026-11-24.json").write_text(json.dumps({"atualizadoEm": "2026-11-24", "origem": "pdf", "regioes": []}))
+                (Path(tmp) / "precos" / "2026-11-23.json").write_text(json.dumps({"atualizadoEm": "2026-11-23", "regioes": []}))
+                idx = {"snapshots": ["2026-11-23", "2026-11-24"]}
+                self.assertTrue(pp.manual_do_dia(idx, "2026-11-24"))
+                self.assertFalse(pp.manual_do_dia(idx, "2026-11-23"))  # snapshot do robô
+                self.assertFalse(pp.manual_do_dia(idx, "2026-11-25"))  # dia seguinte: robô volta ao normal
+            finally:
+                pp.DADOS = antigo
 
 
 class Publicar(unittest.TestCase):

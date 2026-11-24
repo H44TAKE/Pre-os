@@ -74,6 +74,15 @@ powershell -ExecutionPolicy Bypass -File scripts/agendar_windows.ps1 -Nome "Seu 
 
 O script cria uma cópia dedicada do repositório em `Documents\PainelPrecosRedeHG-automacao` (a automação não mexe na pasta onde você trabalha) e copia o `scripts/.env` para lá. A tarefa só roda com você logado no Windows; se o PC estiver desligado no horário, roda ao ligar. Para rodar uma vez à mão: `python scripts/atualizar_e_publicar.py`. Para desativar: `Unregister-ScheduledTask -TaskName PainelPrecosRedeHG-AtualizarPrecos -Confirm:$false`.
 
+**Preços por PDF do dia** (tabela "PREÇOS - À VISTA"; precisa de `pip install pdfplumber`):
+
+```bash
+python scripts/importar_precos_pdf.py "C:/caminho/Preços Atualizados.pdf" --sem-gravar   # só mostra
+python scripts/importar_precos_pdf.py "C:/caminho/Preços Atualizados.pdf"                # grava
+```
+
+A data vem do cabeçalho do PDF. Os postos do PDF recebem S-500 e S-10 do PDF ("-" = sem preço); os que não estão no PDF mantêm o preço que já tinham (por exemplo, o do portal). O snapshot sai marcado com `"origem": "pdf"`, e o robô automático do portal **não o sobrescreve no mesmo dia**; no dia seguinte ele volta a rodar normalmente.
+
 **Preços por planilha** (alternativa; planilha `.xlsx`, aba `A VISTA`):
 
 ```bash

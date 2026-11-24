@@ -128,6 +128,13 @@ def mudou(snapshot: dict, base: dict) -> bool:
     return mapa(snapshot) != mapa(base)
 
 
+def manual_do_dia(idx: dict, data: str) -> bool:
+    """True se o snapshot da própria data foi gravado à mão (PDF) e o robô não deve sobrescrevê-lo."""
+    if data not in idx["snapshots"]:
+        return False
+    return ler_json(DADOS / "precos" / f"{data}.json").get("origem") == "pdf"
+
+
 # ---------------------------------------------------------------- leitura do portal (rede)
 
 def carregar_credenciais() -> tuple[str, str, str]:
@@ -200,14 +207,18 @@ def main() -> None:
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", args.data):
         sys.exit("--data deve estar no formato AAAA-MM-DD")
 
+    idx_path = DADOS / "precos" / "index.json"
+    idx = ler_json(idx_path) if idx_path.exists() else {"snapshots": []}
+    if args.automatico and manual_do_dia(idx, args.data):
+        print("Os preços de hoje vieram de um PDF manual: o robô não sobrescreve. Amanhã volta ao normal.")
+        return
+
     if args.json:
         linhas = json.loads(Path(args.json).read_text(encoding="utf8"))
     else:
         usuario, senha, base = carregar_credenciais()
         linhas = ler_portal(usuario, senha, base, args.mostrar)
 
-    idx_path = DADOS / "precos" / "index.json"
-    idx = ler_json(idx_path) if idx_path.exists() else {"snapshots": []}
     anteriores = [d for d in idx["snapshots"] if d < args.data]
     anterior = ler_json(DADOS / "precos" / f"{anteriores[-1]}.json") if anteriores else {"regioes": []}
     anterior_total = sum(len(r["postos"]) for r in anterior["regioes"])
