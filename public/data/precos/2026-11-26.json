@@ -1,0 +1,437 @@
+{
+ "atualizadoEm": "2026-11-26",
+ "regioes": [
+  {
+   "sigla": "AL",
+   "nome": "Alagoas",
+   "postos": [
+    {
+     "nome": "Alagoas 101",
+     "rodovia": "BR 101 / KM 204",
+     "cidade": "São Sebastião",
+     "s500": 8.32,
+     "s10": 7.36,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "ES",
+   "nome": "Espírito Santo",
+   "postos": [
+    {
+     "nome": "Linhares",
+     "rodovia": "BR 101 / KM 169",
+     "cidade": "Linhares",
+     "s500": 7.97,
+     "s10": 6.97,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "TO",
+   "nome": "Tocantins",
+   "postos": [
+    {
+     "nome": "Talisma",
+     "rodovia": "BR 153 / KM 784",
+     "cidade": "Talismã",
+     "s500": null,
+     "s10": 8.19,
+     "bandeira": "IPIRANGA"
+    }
+   ]
+  },
+  {
+   "sigla": "BA-N",
+   "nome": "Bahia Norte",
+   "postos": [
+    {
+     "nome": "Barreiras",
+     "rodovia": "BR 242 / KM 740",
+     "cidade": "Catolândia",
+     "s500": 7.96,
+     "s10": 6.99,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Bendego",
+     "rodovia": "BR 116 / KM 154",
+     "cidade": "Canudos",
+     "s500": 7.72,
+     "s10": 7.66,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Colonial 101",
+     "rodovia": "BR 101 / KM 294",
+     "cidade": "Laje",
+     "s500": 8.94,
+     "s10": 8.93,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Euclides Da Cunha 116",
+     "rodovia": "ROD BR 116",
+     "cidade": "Euclides Da Cunha",
+     "s500": 6.82,
+     "s10": 6.92,
+     "bandeira": "REDE HG"
+    },
+    {
+     "nome": "Feira 101",
+     "rodovia": "BR 101 / KM 179",
+     "cidade": "São Gonçalo dos Campos",
+     "s500": 8.94,
+     "s10": 7.77,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "Grande Vale",
+     "rodovia": "BR 116 / KM 630",
+     "cidade": "Jaguaquara",
+     "s500": 8.94,
+     "s10": 7.97,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Grão de Ouro",
+     "rodovia": "BR 116 / KM 443",
+     "cidade": "Antônio Cardoso",
+     "s500": 8.94,
+     "s10": 8.49,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Itabuna",
+     "rodovia": "BR 101 / KM 513",
+     "cidade": "Itabuna",
+     "s500": 8.94,
+     "s10": 8.93,
+     "bandeira": "LARCO"
+    },
+    {
+     "nome": "Maracanã",
+     "rodovia": "BR 116 / KM 484",
+     "cidade": "Rafael Jambeiro",
+     "s500": 8.94,
+     "s10": 8.5,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Novo Ponto",
+     "rodovia": "BR 116 / KM 562",
+     "cidade": "Brejões",
+     "s500": 8.94,
+     "s10": 7.75,
+     "bandeira": "REDE HG"
+    },
+    {
+     "nome": "Papa Léguas III",
+     "rodovia": "BR 116 / KM 522",
+     "cidade": "Itatim",
+     "s500": 8.94,
+     "s10": 7.65,
+     "bandeira": "REDE HG"
+    },
+    {
+     "nome": "Parque dos Coqueiros",
+     "rodovia": "BR 116 / KM 530",
+     "cidade": "Itatim",
+     "s500": 8.94,
+     "s10": 7.77,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Salvador",
+     "rodovia": "BR 324 / KM 12",
+     "cidade": "Salvador",
+     "s500": 7.76,
+     "s10": 7.87,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Santo Antônio",
+     "rodovia": "BR 101 / KM 299",
+     "cidade": "Valença",
+     "s500": 8.94,
+     "s10": 7.97,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Uirapuru",
+     "rodovia": "BR 116 / KM 553",
+     "cidade": "Itatim",
+     "s500": 8.94,
+     "s10": 7.77,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "BA-S",
+   "nome": "Bahia Sul",
+   "postos": [
+    {
+     "nome": "Anel Viário",
+     "rodovia": "Av. Anel do Contorno / N°1000",
+     "cidade": "Vitória da Conquista",
+     "s500": 7.72,
+     "s10": 7.97,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Cândido Sales",
+     "rodovia": "BR 116 / KM 900",
+     "cidade": "Candido Sales",
+     "s500": 7.72,
+     "s10": 7.87,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Caravelas",
+     "rodovia": "BR 101 / KM 892",
+     "cidade": "Caravelas",
+     "s500": 7.72,
+     "s10": 8.71,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Parceiro",
+     "rodovia": "BR 101 / KM 709",
+     "cidade": "Eunápolis",
+     "s500": 8.94,
+     "s10": 8.77,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "São Marcos",
+     "rodovia": "BR 116 / KM 835",
+     "cidade": "Vitória da Conquista",
+     "s500": 8.94,
+     "s10": 7.97,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Ultra",
+     "rodovia": "BR 116 / KM 785",
+     "cidade": "Planalto",
+     "s500": 8.94,
+     "s10": 8.56,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "MG-N",
+   "nome": "Minas Gerais Norte",
+   "postos": [
+    {
+     "nome": "MOC",
+     "rodovia": "Av. Dr. Mário Tourinho / KM 13",
+     "cidade": "Montes Claros",
+     "s500": 8.02,
+     "s10": 8.22,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "MOC 135",
+     "rodovia": "BR 135 / KM 385,5",
+     "cidade": "Montes Claros",
+     "s500": 7.69,
+     "s10": 7.99,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "Norte de Minas",
+     "rodovia": "Av. D c/ Anel Rodoviário / N°1310",
+     "cidade": "Montes Claros",
+     "s500": 7.6,
+     "s10": 7.9,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Papa Léguas I",
+     "rodovia": "BR 116 / KM 132",
+     "cidade": "Itaobim",
+     "s500": 6.69,
+     "s10": 6.89,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Turmalina III",
+     "rodovia": "Av. Dr. Mário Tourinho / N°3244",
+     "cidade": "Montes Claros",
+     "s500": 7.69,
+     "s10": 7.99,
+     "bandeira": "SHELL"
+    }
+   ]
+  },
+  {
+   "sigla": "MG-C",
+   "nome": "Minas Gerais Centro",
+   "postos": [
+    {
+     "nome": "Campos Altos",
+     "rodovia": "BR 262 / KM 598",
+     "cidade": "Campos Altos",
+     "s500": 7.59,
+     "s10": 7.99,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "Casa Branca",
+     "rodovia": "BR 116 / KM 367",
+     "cidade": "Frei Inocêncio",
+     "s500": 7.59,
+     "s10": 6.79,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Centenário",
+     "rodovia": "BR 365 / KM 522",
+     "cidade": "Monte Carmelo",
+     "s500": 8.79,
+     "s10": 8.69,
+     "bandeira": "REDE HG"
+    },
+    {
+     "nome": "Cherokee",
+     "rodovia": "BR 116 / KM 399",
+     "cidade": "Gov. Valadares",
+     "s500": 6.59,
+     "s10": 6.89,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Eucaliptos",
+     "rodovia": "BR 050 / KM 193",
+     "cidade": "Delta",
+     "s500": 7.69,
+     "s10": 7.99,
+     "bandeira": "RIO BRANCO"
+    },
+    {
+     "nome": "Falcão",
+     "rodovia": "BR 381 / KM 173,8",
+     "cidade": "Periquito",
+     "s500": 7.46,
+     "s10": 7.79,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Ferrari",
+     "rodovia": "BR 116 / KM 420",
+     "cidade": "Gov. Valadares",
+     "s500": null,
+     "s10": null,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Ilha Brava",
+     "rodovia": "BR 381 / KM 158",
+     "cidade": "Gov. Valadares",
+     "s500": null,
+     "s10": 7.89,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "JR",
+     "rodovia": "BR 116 / KM 448",
+     "cidade": "Engenheiro Caldas",
+     "s500": 6.92,
+     "s10": 7.22,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Lajinha",
+     "rodovia": "BR 116 / 290",
+     "cidade": "Teófilo Otoni",
+     "s500": 8.37,
+     "s10": null,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "Periquito",
+     "rodovia": "BR 116 / KM 324",
+     "cidade": "Itambacuri",
+     "s500": 7.59,
+     "s10": 7.11,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Pinheiros",
+     "rodovia": "BR 116 / KM 394",
+     "cidade": "Gov. Valadares",
+     "s500": 7.55,
+     "s10": 6.75,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Planalto II",
+     "rodovia": "BR 116 / KM 412",
+     "cidade": "Gov. Valadares",
+     "s500": 6.69,
+     "s10": 6.89,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "MG-S",
+   "nome": "Minas Gerais Sul",
+   "postos": [
+    {
+     "nome": "Balança",
+     "rodovia": "BR 381 / KM 786",
+     "cidade": "São Sebastião da Bela Vista",
+     "s500": 7.59,
+     "s10": 6.99,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Flash",
+     "rodovia": "BR 135 / KM 642",
+     "cidade": "Curvelo",
+     "s500": 7.49,
+     "s10": 7.79,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Minas Gerais",
+     "rodovia": "BR 381 (Fernão Dias) / KM 816",
+     "cidade": "Careaçu",
+     "s500": 7.59,
+     "s10": 6.99,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Piscina",
+     "rodovia": "BR 116 / KM 809",
+     "cidade": "Além Paraíba",
+     "s500": 7.79,
+     "s10": 7.89,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Quilometragem",
+     "rodovia": "BR 135 / KM 633",
+     "cidade": "Curvelo",
+     "s500": 7.49,
+     "s10": 7.79,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Ravena",
+     "rodovia": "BR 381 / KM 445",
+     "cidade": "Sabará",
+     "s500": 7.09,
+     "s10": 7.39,
+     "bandeira": "BR"
+    }
+   ]
+  }
+ ]
+}
