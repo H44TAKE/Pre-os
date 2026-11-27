@@ -129,10 +129,45 @@ def mudou(snapshot: dict, base: dict) -> bool:
 
 
 def manual_do_dia(idx: dict, data: str) -> bool:
-    """True se o snapshot da própria data foi gravado à mão (PDF ou Ticketlog) e o robô não deve sobrescrevê-lo."""
+    """True se o snapshot da própria data foi gravado à mão a partir de um PDF e o robô não deve sobrescrevê-lo.
+
+    O snapshot da Ticketlog não entra aqui: o robô pode refazê-lo, porque preserva o S-10 da Ticketlog que
+    ainda estiver dentro do prazo (veja manter_ticketlog).
+    """
     if data not in idx["snapshots"]:
         return False
-    return ler_json(DADOS / "precos" / f"{data}.json").get("origem") in ("pdf", "ticketlog")
+    return ler_json(DADOS / "precos" / f"{data}.json").get("origem") == "pdf"
+
+
+LIMITE_TICKETLOG_DIAS = 7
+
+
+def manter_ticketlog(snapshot: dict, ultimo: dict, hoje: date, max_dias: int = LIMITE_TICKETLOG_DIAS) -> dict:
+    """Prioridade da Ticketlog: o S-10 dela vale enquanto o preço tiver até max_dias dias.
+
+    O robô só passa na frente (usa o preço do portal) nos postos em que o preço da Ticketlog ficou mais velho que
+    isso ou não existe. Copia do snapshot anterior o S-10 vindo da Ticketlog ainda dentro do prazo, e também os
+    postos "extras" (fora da tabela) com preço dentro do prazo.
+    """
+    def idade(iso: str) -> int:
+        return (hoje - date.fromisoformat(iso)).days
+
+    vigentes = {
+        normalizar(p["nome"]): p
+        for r in ultimo.get("regioes", [])
+        for p in r["postos"]
+        if p.get("s10Fonte") == "ticketlog" and p.get("s10Data") and p.get("s10") is not None and 0 <= idade(p["s10Data"]) <= max_dias
+    }
+    for r in snapshot["regioes"]:
+        for p in r["postos"]:
+            t = vigentes.get(normalizar(p["nome"]))
+            if t:
+                p["s10"], p["s10Fonte"], p["s10Data"] = t["s10"], "ticketlog", t["s10Data"]
+    extras = [e for e in ultimo.get("extras", []) if 0 <= idade(e["data"]) <= max_dias]
+    if (vigentes or extras) and ultimo.get("ticketlogEm"):
+        snapshot["ticketlogEm"] = ultimo["ticketlogEm"]
+        snapshot["extras"] = extras
+    return snapshot
 
 
 # ---------------------------------------------------------------- leitura do portal (rede)
@@ -210,7 +245,7 @@ def main() -> None:
     idx_path = DADOS / "precos" / "index.json"
     idx = ler_json(idx_path) if idx_path.exists() else {"snapshots": []}
     if args.automatico and manual_do_dia(idx, args.data):
-        print("Os preços de hoje vieram de uma fonte manual (PDF ou Ticketlog): o robô não sobrescreve. Amanhã volta ao normal.")
+        print("Os preços de hoje vieram de um PDF manual: o robô não sobrescreve. Amanhã volta ao normal.")
         return
 
     if args.json:
@@ -230,6 +265,7 @@ def main() -> None:
     if anterior_total and relatorio["total"] < anterior_total * 0.5:
         sys.exit(f"Resposta suspeita: só {relatorio['total']} postos (antes: {anterior_total}). Nada foi gravado.")
     snapshot["atualizadoEm"] = args.data
+    snapshot = manter_ticketlog(snapshot, ultimo, date.fromisoformat(args.data))
     mostrar(relatorio, anterior_total)
     if args.automatico:
         if relatorio["novos"]:

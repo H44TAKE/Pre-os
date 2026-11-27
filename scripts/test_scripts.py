@@ -309,7 +309,7 @@ class TicketlogS10(unittest.TestCase):
         self.assertNotIn("s10Fonte", self.postos(snap)["Alagoas 101"])
         self.assertEqual(repr(base), original)
 
-    def test_trava_do_robo_vale_tambem_para_snapshot_da_ticketlog(self):
+    def test_snapshot_da_ticketlog_nao_trava_o_robo(self):
         import json
         import tempfile
         from pathlib import Path
@@ -320,9 +320,63 @@ class TicketlogS10(unittest.TestCase):
             pp.DADOS = Path(tmp)
             try:
                 (Path(tmp) / "precos" / "2026-11-27.json").write_text(json.dumps({"origem": "ticketlog", "regioes": []}))
-                self.assertTrue(pp.manual_do_dia({"snapshots": ["2026-11-27"]}, "2026-11-27"))
+                self.assertFalse(pp.manual_do_dia({"snapshots": ["2026-11-27"]}, "2026-11-27"))  # o robô pode refazer, preservando a Ticketlog
             finally:
                 pp.DADOS = antigo
+
+
+class PrioridadeTicketlog(unittest.TestCase):
+    """O robô do portal só passa na frente da Ticketlog quando o preço dela tem mais de 7 dias (ou não existe)."""
+
+    HOJE = pp.date(2026, 12, 2)
+
+    def posto(self, nome, s10, fonte=None, data=None):
+        p = {"nome": nome, "rodovia": "r", "cidade": "c", "s500": 7.0, "s10": s10, "bandeira": "BR"}
+        if fonte:
+            p["s10Fonte"], p["s10Data"] = fonte, data
+        return p
+
+    def snap(self, *postos, **extra):
+        return {"regioes": [{"sigla": "AL", "nome": "Alagoas", "postos": list(postos)}], **extra}
+
+    def test_ticketlog_dentro_do_prazo_vence_o_portal(self):
+        portal = self.snap(self.posto("Alagoas 101", 7.46))
+        anterior = self.snap(self.posto("Alagoas 101", 6.88, "ticketlog", "2026-11-26"), ticketlogEm="2026-11-27")
+        r = pp.manter_ticketlog(portal, anterior, self.HOJE)  # 6 dias de idade
+        p = r["regioes"][0]["postos"][0]
+        self.assertEqual((p["s10"], p["s10Fonte"], p["s10Data"]), (6.88, "ticketlog", "2026-11-26"))
+        self.assertEqual(r["ticketlogEm"], "2026-11-27")
+
+    def test_ticketlog_com_mais_de_7_dias_perde_para_o_portal(self):
+        anterior = self.snap(self.posto("Alagoas 101", 6.88, "ticketlog", "2026-11-25"), ticketlogEm="2026-11-27")
+        r = pp.manter_ticketlog(self.snap(self.posto("Alagoas 101", 7.46)), anterior, pp.date(2026, 12, 3))  # 8 dias
+        p = r["regioes"][0]["postos"][0]
+        self.assertEqual((p["s10"], "s10Fonte" in p), (7.46, False))
+        self.assertNotIn("ticketlogEm", r)
+
+    def test_limite_de_7_dias_e_inclusivo(self):
+        anterior = self.snap(self.posto("Alagoas 101", 6.88, "ticketlog", "2026-11-25"), ticketlogEm="2026-11-27")
+        r = pp.manter_ticketlog(self.snap(self.posto("Alagoas 101", 7.46)), anterior, self.HOJE)  # 25/11 -> 02/12 = 7 dias
+        self.assertEqual(r["regioes"][0]["postos"][0]["s10"], 6.88)
+
+    def test_posto_sem_leitura_da_ticketlog_fica_com_o_portal(self):
+        portal = self.snap(self.posto("Linhares", 6.97))
+        anterior = self.snap(self.posto("Linhares", 6.77))  # veio de PDF, sem marca
+        r = pp.manter_ticketlog(portal, anterior, self.HOJE)
+        self.assertEqual(r["regioes"][0]["postos"][0]["s10"], 6.97)
+
+    def test_extras_vencidos_somem_e_os_validos_continuam(self):
+        extras = [{"nome": "Reforco Ii", "cidade": "x", "uf": "SE", "s10": 7.42, "data": "2026-11-30"},
+                  {"nome": "Reforco 6", "cidade": "y", "uf": "AL", "s10": 7.82, "data": "2026-11-20"}]
+        anterior = self.snap(self.posto("Alagoas 101", 6.88, "ticketlog", "2026-11-30"), ticketlogEm="2026-12-01", extras=extras)
+        r = pp.manter_ticketlog(self.snap(self.posto("Alagoas 101", 7.46)), anterior, self.HOJE)
+        self.assertEqual([e["nome"] for e in r["extras"]], ["Reforco Ii"])
+
+    def test_nao_altera_o_snapshot_anterior(self):
+        anterior = self.snap(self.posto("Alagoas 101", 6.88, "ticketlog", "2026-11-30"), ticketlogEm="2026-12-01")
+        antes = repr(anterior)
+        pp.manter_ticketlog(self.snap(self.posto("Alagoas 101", 7.46)), anterior, self.HOJE)
+        self.assertEqual(repr(anterior), antes)
 
 
 class Publicar(unittest.TestCase):

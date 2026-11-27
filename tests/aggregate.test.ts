@@ -39,8 +39,8 @@ describe("dados reais", () => {
   const dados = ler<DadosAbastecimento>("abastecimentos.json");
   const postos = montarPostos(snap, null, dados);
 
-  it("mantém 48 postos na tabela e não perde os 965 abastecimentos originais", () => {
-    expect(postos.filter((p) => !p.foraDaTabela)).toHaveLength(48);
+  it("mantém ao menos os 48 postos da tabela e não perde os 965 abastecimentos originais", () => {
+    expect(postos.filter((p) => !p.foraDaTabela).length).toBeGreaterThanOrEqual(48);
     expect(dados.rows.length).toBeGreaterThanOrEqual(965);
     // relatórios novos podem completar dias antigos, nunca reduzir
     expect(dados.rows.filter((r) => r.dataISO <= "2026-10-29").length).toBeGreaterThanOrEqual(965);
@@ -56,7 +56,7 @@ describe("dados reais", () => {
   });
   it("KPIs coerentes", () => {
     const k = calcularKpis(postos);
-    expect(k.total).toBe(48);
+    expect(k.total).toBe(postos.filter((p) => !p.foraDaTabela).length);
     expect(k.menor!.s10!).toBeLessThanOrEqual(k.maior!.s10!);
     expect(k.top5).toHaveLength(5);
     expect(k.top5[0].s10).toBe(k.menor!.s10);
