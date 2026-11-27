@@ -5,7 +5,7 @@ import { fmtBRL, fmtNum, plural } from "../lib/format";
 import { norm } from "../lib/match";
 import type { Posto } from "../lib/types";
 import { useParams2 } from "../hooks/useParam";
-import { AvisoNaoAbastece, BandeiraTag, Chips, Delta, PageHead, Vazio } from "../components/ui";
+import { AvisoNaoAbastece, BandeiraTag, Chips, Delta, FonteTabela, PageHead, Vazio } from "../components/ui";
 
 type Ordem = "regiao" | "menor" | "maior" | "nome";
 const ORDENS: { valor: Ordem; rotulo: string }[] = [
@@ -88,7 +88,7 @@ function Resumo() {
   );
 }
 
-function Linha({ p, mostrarRegiao, melhor, comVariacao }: { p: Posto; mostrarRegiao: boolean; melhor: boolean; comVariacao: boolean }) {
+function Linha({ p, mostrarRegiao, melhor, comVariacao, marcarFonte }: { p: Posto; mostrarRegiao: boolean; melhor: boolean; comVariacao: boolean; marcarFonte: boolean }) {
   const { set } = useParams2();
   const abrir = () => set({ posto: p.id }, { push: true });
   return (
@@ -110,6 +110,7 @@ function Linha({ p, mostrarRegiao, melhor, comVariacao }: { p: Posto; mostrarReg
       <td className="col-preco num">{p.s500 === null ? <span className="muted">—</span> : fmtNum(p.s500)}</td>
       <td className="col-preco col-s10 num">
         {p.s10 === null ? <span className="muted">—</span> : fmtNum(p.s10)}
+        {marcarFonte && p.s10 !== null && p.s10Fonte !== "ticketlog" && <FonteTabela />}
         {melhor && !p.naoAbastece && <span className="selo-barato">mais barato</span>}
       </td>
       {comVariacao && (
@@ -123,6 +124,7 @@ function Linha({ p, mostrarRegiao, melhor, comVariacao }: { p: Posto; mostrarReg
 
 export function PrecosPage() {
   const { postos, atual, anterior } = useDataset();
+  const marcarFonte = Boolean(atual.ticketlogEm);
   const { get, set } = useParams2();
   const regiao = get("regiao") ?? "TODAS";
   const bandeira = get("bandeira") ?? "TODAS";
@@ -234,12 +236,12 @@ export function PrecosPage() {
                           </th>
                         </tr>
                         {doGrupo.map((p) => (
-                          <Linha key={p.id} p={p} mostrarRegiao={false} melhor={p.s10 !== null && menorPorRegiao.get(r.sigla) === p.s10} comVariacao={comVariacao} />
+                          <Linha key={p.id} p={p} mostrarRegiao={false} melhor={p.s10 !== null && menorPorRegiao.get(r.sigla) === p.s10} comVariacao={comVariacao} marcarFonte={marcarFonte} />
                         ))}
                       </Fragment>
                     );
                   })
-                : ordenados.map((p) => <Linha key={p.id} p={p} mostrarRegiao melhor={p.s10 !== null && menorPorRegiao.get(p.regiaoSigla!) === p.s10} comVariacao={comVariacao} />)}
+                : ordenados.map((p) => <Linha key={p.id} p={p} mostrarRegiao melhor={p.s10 !== null && menorPorRegiao.get(p.regiaoSigla!) === p.s10} comVariacao={comVariacao} marcarFonte={marcarFonte} />)}
             </tbody>
           </table>
         </div>

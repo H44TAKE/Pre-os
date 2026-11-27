@@ -34,6 +34,15 @@ export function AvisoNaoAbastece() {
   );
 }
 
+/** Marca discreta: o S-10 veio da tabela (portal/PDF) e não da leitura da Ticketlog. */
+export function FonteTabela() {
+  return (
+    <span className="fonte-tabela" title="Preço da tabela (portal/PDF): a Ticketlog não tinha um preço recente deste posto">
+      tabela
+    </span>
+  );
+}
+
 /** Variação de preço: queda é boa (verde), alta é ruim (vermelho). */
 export function Delta({ valor, contra = "desde a atualização anterior" }: { valor: number | null; contra?: string }) {
   if (valor === null) return <span className="muted">—</span>;

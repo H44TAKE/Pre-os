@@ -45,6 +45,11 @@ export function Layout() {
               <span className="atualizado">
                 <span className="atualizado-ponto" aria-hidden="true" />
                 Preços de <strong className="num">{fmtDateLong(estado.dataset.atual.atualizadoEm)}</strong>
+                {estado.dataset.atual.ticketlogEm && (
+                  <>
+                    {" "}· Ticketlog <strong className="num">{fmtDateLong(estado.dataset.atual.ticketlogEm)}</strong>
+                  </>
+                )}
               </span>
             )}
             <button type="button" className="btn-icone btn-tema" onClick={alternar} aria-label={tema === "dark" ? "Mudar para tema claro" : "Mudar para tema escuro"}>

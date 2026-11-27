@@ -96,7 +96,22 @@ export function PostoDrawer({ posto, onClose }: { posto: Posto | null; onClose: 
           )}
 
           {posto.foraDaTabela ? (
-            <p className="aviso">Este posto aparece no histórico de abastecimentos, mas não está na tabela de preços atual. Sem preço de referência.</p>
+            <>
+              {posto.s10 !== null && posto.s10Data && (
+                <section className="drawer-precos" aria-label="Preço S-10">
+                  <div className="drawer-precos-linha">
+                    <div>
+                      <div className="stat-rotulo">S-10</div>
+                      <div className="preco-grande preco-s10 num">{fmtBRL(posto.s10)}</div>
+                    </div>
+                  </div>
+                  <p className="muted fonte-linha">Ticketlog, atualizado em {fmtDateLong(posto.s10Data)}</p>
+                </section>
+              )}
+              <p className="aviso">
+                Este posto aparece no histórico de abastecimentos, mas não está na tabela de preços atual.{posto.s10 === null ? " Sem preço de referência." : ""}
+              </p>
+            </>
           ) : (
             <section className="drawer-precos" aria-label="Preço atual">
               <div className="drawer-precos-linha">
@@ -117,6 +132,11 @@ export function PostoDrawer({ posto, onClose }: { posto: Posto | null; onClose: 
                   </div>
                 )}
               </div>
+              {atual.ticketlogEm && posto.s10 !== null && (
+                <p className="muted fonte-linha">
+                  S-10: {posto.s10Fonte === "ticketlog" && posto.s10Data ? `Ticketlog, atualizado em ${fmtDateLong(posto.s10Data)}` : "preço da tabela (portal/PDF)"}
+                </p>
+              )}
               <dl className="drawer-meta">
                 <div>
                   <dt>Rodovia</dt>

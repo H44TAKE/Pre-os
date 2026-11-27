@@ -129,10 +129,10 @@ def mudou(snapshot: dict, base: dict) -> bool:
 
 
 def manual_do_dia(idx: dict, data: str) -> bool:
-    """True se o snapshot da própria data foi gravado à mão (PDF) e o robô não deve sobrescrevê-lo."""
+    """True se o snapshot da própria data foi gravado à mão (PDF ou Ticketlog) e o robô não deve sobrescrevê-lo."""
     if data not in idx["snapshots"]:
         return False
-    return ler_json(DADOS / "precos" / f"{data}.json").get("origem") == "pdf"
+    return ler_json(DADOS / "precos" / f"{data}.json").get("origem") in ("pdf", "ticketlog")
 
 
 # ---------------------------------------------------------------- leitura do portal (rede)
@@ -210,7 +210,7 @@ def main() -> None:
     idx_path = DADOS / "precos" / "index.json"
     idx = ler_json(idx_path) if idx_path.exists() else {"snapshots": []}
     if args.automatico and manual_do_dia(idx, args.data):
-        print("Os preços de hoje vieram de um PDF manual: o robô não sobrescreve. Amanhã volta ao normal.")
+        print("Os preços de hoje vieram de uma fonte manual (PDF ou Ticketlog): o robô não sobrescreve. Amanhã volta ao normal.")
         return
 
     if args.json:

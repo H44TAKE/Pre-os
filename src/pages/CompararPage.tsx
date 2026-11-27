@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ArrowLeftRight } from "lucide-react";
 import { useDataset } from "../lib/data";
 import { buildAgg } from "../lib/aggregate";
-import { fmtBRL, fmtNum } from "../lib/format";
+import { fmtBRL, fmtDateLong, fmtNum } from "../lib/format";
 import type { AggPosto, Posto } from "../lib/types";
 import { useParams2 } from "../hooks/useParam";
 import { AvisoNaoAbastece, BandeiraTag, PageHead } from "../components/ui";
@@ -49,7 +49,19 @@ function Lado({ lado, posto, agg }: { lado: "A" | "B"; posto: Posto; agg: AggPos
       </header>
 
       {posto.foraDaTabela ? (
-        <p className="aviso">Sem preço de referência atual para este posto.</p>
+        posto.s10 !== null && posto.s10Data ? (
+          <>
+            <div className="cmp-precos">
+              <div>
+                <div className="stat-rotulo">S-10</div>
+                <div className="preco-grande preco-s10 num">{fmtBRL(posto.s10)}</div>
+              </div>
+            </div>
+            <p className="muted fonte-linha">Ticketlog, atualizado em {fmtDateLong(posto.s10Data)}</p>
+          </>
+        ) : (
+          <p className="aviso">Sem preço de referência atual para este posto.</p>
+        )
       ) : (
         <>
           <div className="cmp-precos">
