@@ -252,6 +252,21 @@
 .cmp-card header .selo-aviso {
   margin-top: 8px;
 }
+.fonte-tabela {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--ink-3);
+  font-family: var(--font);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  vertical-align: 1px;
+}
+.fonte-linha {
+  font-size: var(--t-sm);
+}
 .selo-barato {
   display: inline-block;
   margin-left: 8px;

@@ -1,0 +1,515 @@
+{
+ "atualizadoEm": "2026-11-27",
+ "regioes": [
+  {
+   "sigla": "AL",
+   "nome": "Alagoas",
+   "postos": [
+    {
+     "nome": "Alagoas 101",
+     "rodovia": "BR 101 / KM 204",
+     "cidade": "São Sebastião",
+     "s500": 7.19,
+     "s10": 6.89,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "ES",
+   "nome": "Espírito Santo",
+   "postos": [
+    {
+     "nome": "Linhares",
+     "rodovia": "BR 101 / KM 169",
+     "cidade": "Linhares",
+     "s500": 6.57,
+     "s10": 6.77,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "TO",
+   "nome": "Tocantins",
+   "postos": [
+    {
+     "nome": "Talisma",
+     "rodovia": "BR 153 / KM 784",
+     "cidade": "Talismã",
+     "s500": null,
+     "s10": 6.38,
+     "bandeira": "IPIRANGA",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    }
+   ]
+  },
+  {
+   "sigla": "BA-N",
+   "nome": "Bahia Norte",
+   "postos": [
+    {
+     "nome": "Barreiras",
+     "rodovia": "BR 242 / KM 740",
+     "cidade": "Catolândia",
+     "s500": 6.99,
+     "s10": 6.67,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Bendego",
+     "rodovia": "BR 116 / KM 154",
+     "cidade": "Canudos",
+     "s500": 6.55,
+     "s10": 6.35,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    },
+    {
+     "nome": "Colonial 101",
+     "rodovia": "BR 101 / KM 294",
+     "cidade": "Laje",
+     "s500": 6.79,
+     "s10": 6.64,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Euclides Da Cunha 116",
+     "rodovia": "ROD BR 116",
+     "cidade": "Euclides Da Cunha",
+     "s500": 6.82,
+     "s10": 6.92,
+     "bandeira": "REDE HG"
+    },
+    {
+     "nome": "Feira 101",
+     "rodovia": "BR 101 / KM 179",
+     "cidade": "São Gonçalo dos Campos",
+     "s500": 6.53,
+     "s10": 6.35,
+     "bandeira": "IPIRANGA",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Grande Vale",
+     "rodovia": "BR 116 / KM 630",
+     "cidade": "Jaguaquara",
+     "s500": 6.79,
+     "s10": 6.64,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Grão de Ouro",
+     "rodovia": "BR 116 / KM 443",
+     "cidade": "Antônio Cardoso",
+     "s500": 6.62,
+     "s10": 6.44,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Itabuna",
+     "rodovia": "BR 101 / KM 513",
+     "cidade": "Itabuna",
+     "s500": 6.75,
+     "s10": 6.79,
+     "bandeira": "LARCO"
+    },
+    {
+     "nome": "Maracanã",
+     "rodovia": "BR 116 / KM 484",
+     "cidade": "Rafael Jambeiro",
+     "s500": 6.63,
+     "s10": 6.44,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    },
+    {
+     "nome": "Novo Ponto",
+     "rodovia": "BR 116 / KM 562",
+     "cidade": "Brejões",
+     "s500": 6.62,
+     "s10": 6.45,
+     "bandeira": "REDE HG",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Papa Léguas III",
+     "rodovia": "BR 116 / KM 522",
+     "cidade": "Itatim",
+     "s500": 6.52,
+     "s10": 6.34,
+     "bandeira": "REDE HG",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Parque dos Coqueiros",
+     "rodovia": "BR 116 / KM 530",
+     "cidade": "Itatim",
+     "s500": 6.64,
+     "s10": 6.46,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Salvador",
+     "rodovia": "BR 324 / KM 12",
+     "cidade": "Salvador",
+     "s500": 6.68,
+     "s10": 6.56,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    },
+    {
+     "nome": "Santo Antônio",
+     "rodovia": "BR 101 / KM 299",
+     "cidade": "Valença",
+     "s500": 6.79,
+     "s10": 6.89,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Uirapuru",
+     "rodovia": "BR 116 / KM 553",
+     "cidade": "Itatim",
+     "s500": 6.64,
+     "s10": 6.69,
+     "bandeira": "BR"
+    }
+   ]
+  },
+  {
+   "sigla": "BA-S",
+   "nome": "Bahia Sul",
+   "postos": [
+    {
+     "nome": "Anel Viário",
+     "rodovia": "Av. Anel do Contorno / N°1000",
+     "cidade": "Vitória da Conquista",
+     "s500": 6.79,
+     "s10": 6.6,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Cândido Sales",
+     "rodovia": "BR 116 / KM 900",
+     "cidade": "Candido Sales",
+     "s500": 6.75,
+     "s10": 6.54,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    },
+    {
+     "nome": "Caravelas",
+     "rodovia": "BR 101 / KM 892",
+     "cidade": "Caravelas",
+     "s500": 6.79,
+     "s10": 6.29,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Parceiro",
+     "rodovia": "BR 101 / KM 709",
+     "cidade": "Eunápolis",
+     "s500": 7.54,
+     "s10": 7.69,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "São Marcos",
+     "rodovia": "BR 116 / KM 835",
+     "cidade": "Vitória da Conquista",
+     "s500": 6.79,
+     "s10": 6.46,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-26"
+    },
+    {
+     "nome": "Ultra",
+     "rodovia": "BR 116 / KM 785",
+     "cidade": "Planalto",
+     "s500": 6.69,
+     "s10": 6.51,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    }
+   ]
+  },
+  {
+   "sigla": "MG-N",
+   "nome": "Minas Gerais Norte",
+   "postos": [
+    {
+     "nome": "MOC",
+     "rodovia": "Av. Dr. Mário Tourinho / KM 13",
+     "cidade": "Montes Claros",
+     "s500": 6.89,
+     "s10": 7.09,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "MOC 135",
+     "rodovia": "BR 135 / KM 385,5",
+     "cidade": "Montes Claros",
+     "s500": 6.59,
+     "s10": 6.88,
+     "bandeira": "IPIRANGA",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-23"
+    },
+    {
+     "nome": "Norte de Minas",
+     "rodovia": "Av. D c/ Anel Rodoviário / N°1310",
+     "cidade": "Montes Claros",
+     "s500": 6.5,
+     "s10": 6.79,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-21"
+    },
+    {
+     "nome": "Papa Léguas I",
+     "rodovia": "BR 116 / KM 132",
+     "cidade": "Itaobim",
+     "s500": 6.69,
+     "s10": 6.78,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    },
+    {
+     "nome": "Turmalina III",
+     "rodovia": "Av. Dr. Mário Tourinho / N°3244",
+     "cidade": "Montes Claros",
+     "s500": 6.59,
+     "s10": 6.88,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "sigla": "MG-C",
+   "nome": "Minas Gerais Centro",
+   "postos": [
+    {
+     "nome": "Campos Altos",
+     "rodovia": "BR 262 / KM 598",
+     "cidade": "Campos Altos",
+     "s500": 6.49,
+     "s10": 6.89,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "Casa Branca",
+     "rodovia": "BR 116 / KM 367",
+     "cidade": "Frei Inocêncio",
+     "s500": 6.49,
+     "s10": 6.62,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-24"
+    },
+    {
+     "nome": "Centenário",
+     "rodovia": "BR 365 / KM 522",
+     "cidade": "Monte Carmelo",
+     "s500": 6.67,
+     "s10": 6.87,
+     "bandeira": "REDE HG"
+    },
+    {
+     "nome": "Cherokee",
+     "rodovia": "BR 116 / KM 399",
+     "cidade": "Gov. Valadares",
+     "s500": 6.59,
+     "s10": 6.88,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-23"
+    },
+    {
+     "nome": "Eucaliptos",
+     "rodovia": "BR 050 / KM 193",
+     "cidade": "Delta",
+     "s500": 6.59,
+     "s10": 6.89,
+     "bandeira": "RIO BRANCO"
+    },
+    {
+     "nome": "Falcão",
+     "rodovia": "BR 381 / KM 173,8",
+     "cidade": "Periquito",
+     "s500": 6.36,
+     "s10": 6.68,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-23"
+    },
+    {
+     "nome": "Ferrari",
+     "rodovia": "BR 116 / KM 420",
+     "cidade": "Gov. Valadares",
+     "s500": null,
+     "s10": null,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Ilha Brava",
+     "rodovia": "BR 381 / KM 158",
+     "cidade": "Gov. Valadares",
+     "s500": null,
+     "s10": 6.78,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-23"
+    },
+    {
+     "nome": "JR",
+     "rodovia": "BR 116 / KM 448",
+     "cidade": "Engenheiro Caldas",
+     "s500": 6.59,
+     "s10": 6.89,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Lajinha",
+     "rodovia": "BR 116 / 290",
+     "cidade": "Teófilo Otoni",
+     "s500": 6.49,
+     "s10": null,
+     "bandeira": "IPIRANGA"
+    },
+    {
+     "nome": "Periquito",
+     "rodovia": "BR 116 / KM 324",
+     "cidade": "Itambacuri",
+     "s500": 6.49,
+     "s10": 6.78,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-24"
+    },
+    {
+     "nome": "Pinheiros",
+     "rodovia": "BR 116 / KM 394",
+     "cidade": "Gov. Valadares",
+     "s500": 6.45,
+     "s10": 6.6,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-24"
+    },
+    {
+     "nome": "Planalto II",
+     "rodovia": "BR 116 / KM 412",
+     "cidade": "Gov. Valadares",
+     "s500": 6.69,
+     "s10": 6.88,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "sigla": "MG-S",
+   "nome": "Minas Gerais Sul",
+   "postos": [
+    {
+     "nome": "Balança",
+     "rodovia": "BR 381 / KM 786",
+     "cidade": "São Sebastião da Bela Vista",
+     "s500": 6.49,
+     "s10": 6.99,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Flash",
+     "rodovia": "BR 135 / KM 642",
+     "cidade": "Curvelo",
+     "s500": 6.39,
+     "s10": 6.68,
+     "bandeira": "SHELL",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    },
+    {
+     "nome": "Minas Gerais",
+     "rodovia": "BR 381 (Fernão Dias) / KM 816",
+     "cidade": "Careaçu",
+     "s500": 6.49,
+     "s10": 6.99,
+     "bandeira": "BR"
+    },
+    {
+     "nome": "Piscina",
+     "rodovia": "BR 116 / KM 809",
+     "cidade": "Além Paraíba",
+     "s500": 6.69,
+     "s10": 6.79,
+     "bandeira": "SHELL"
+    },
+    {
+     "nome": "Quilometragem",
+     "rodovia": "BR 135 / KM 633",
+     "cidade": "Curvelo",
+     "s500": 6.39,
+     "s10": 6.68,
+     "bandeira": "BR",
+     "s10Fonte": "ticketlog",
+     "s10Data": "2026-11-27"
+    },
+    {
+     "nome": "Ravena",
+     "rodovia": "BR 381 / KM 445",
+     "cidade": "Sabará",
+     "s500": 6.49,
+     "s10": 6.79,
+     "bandeira": "BR"
+    }
+   ]
+  }
+ ],
+ "origem": "ticketlog",
+ "extras": [
+  {
+   "nome": "Reforco 6",
+   "cidade": "Rio Largo",
+   "uf": "AL",
+   "s10": 7.82,
+   "data": "2026-11-26"
+  },
+  {
+   "nome": "Reforco Ii",
+   "cidade": "Umbauba",
+   "uf": "SE",
+   "s10": 7.42,
+   "data": "2026-11-26"
+  }
+ ],
+ "ticketlogEm": "2026-11-27"
+}

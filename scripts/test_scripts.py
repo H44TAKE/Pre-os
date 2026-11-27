@@ -9,6 +9,7 @@ import atualizar_precos_portal as pp
 import importar_abastecimentos as ab
 import importar_precos as pr
 import importar_precos_pdf as pdf
+import importar_precos_ticketlog as tl
 from comum import achar_coluna, numero
 
 
@@ -235,6 +236,91 @@ class PrecosPdf(unittest.TestCase):
                 self.assertTrue(pp.manual_do_dia(idx, "2026-11-24"))
                 self.assertFalse(pp.manual_do_dia(idx, "2026-11-23"))  # snapshot do robô
                 self.assertFalse(pp.manual_do_dia(idx, "2026-11-25"))  # dia seguinte: robô volta ao normal
+            finally:
+                pp.DADOS = antigo
+
+
+class TicketlogS10(unittest.TestCase):
+    HOJE = tl.date(2026, 11, 27)
+
+    ARQUIVO = "\n".join([
+        "POSTO ALAGOAS 101;RODOVIA BR 101;SAO SEBASTIAO - AL;Diesel S-10 Comum;13598;R$ 6,88;26/11/2026",
+        "POSTO ALAGOAS 101;RODOVIA BR 101;SAO SEBASTIAO - AL;Arla 32;925;R$ 3,99;30/06/2026",
+        "POSTO UIRAPURU REDE HG;RODOVIA BR 116;ITATIM - BA;Diesel S-10 Comum;1808;R$ 7,98;16/09/2026",
+        "POSTO SALVADOR 324;RODOVIA BR 324;SALVADOR - BA;Diesel S-10 Comum;413;R$ 6,56;27/11/2026",
+        "POSTO ITABUNA;TRAVESSA;ITABUNA - BA;Diesel S-10 Comum;623;R$ 94,90;26/11/2026",
+        "POSTO REFORCO II;RODOVIA BR 101;UMBAUBA - SE;Diesel S-10 Comum;3889;R$ 7,42;26/11/2026",
+        "POSTO TIGRAO;ROD BR 020;VILA BOA - GO;Diesel S-10 Comum;965;R$ 7,39;-",
+        "POSTO ANTIGO;ROD;CIDADE - MG;Diesel S-10 Comum;10;R$ 7,00;01/01/2026",
+    ])
+
+    def base(self):
+        mk = lambda nome, s10: {"nome": nome, "rodovia": "r", "cidade": "c", "s500": 7.0, "s10": s10, "bandeira": "BR"}
+        return {"atualizadoEm": "2026-11-26", "origem": "pdf", "regioes": [
+            {"sigla": "AL", "nome": "Alagoas", "postos": [mk("Alagoas 101", 6.89)]},
+            {"sigla": "BA-N", "nome": "Bahia Norte", "postos": [mk("Uirapuru", 6.70), mk("Itabuna", 6.79), mk("Salvador", 6.80), mk("Sem Linha", 7.0)]},
+        ]}
+
+    def aplicar(self, base=None):
+        linhas = tl.ler_linhas(self.ARQUIVO)
+        return tl.sobrepor(base or self.base(), linhas, self.HOJE, 7, {"SALVADOR 324": "SALVADOR"})
+
+    def postos(self, snap):
+        return {p["nome"]: p for r in snap["regioes"] for p in r["postos"]}
+
+    def test_le_so_s10_comum_e_trata_data_ausente(self):
+        linhas = tl.ler_linhas(self.ARQUIVO)
+        self.assertEqual(len(linhas), 7)  # a linha de Arla não entra
+        self.assertEqual((linhas[0]["cidade"], linhas[0]["uf"], linhas[0]["preco"]), ("SAO SEBASTIAO", "AL", 6.88))
+        self.assertIsNone(next(l for l in linhas if l["nome"] == "POSTO TIGRAO")["data"])
+
+    def test_preco_recente_substitui_e_leva_a_marca_da_fonte(self):
+        snap, rel = self.aplicar()
+        p = self.postos(snap)
+        self.assertEqual((p["Alagoas 101"]["s10"], p["Alagoas 101"]["s10Fonte"], p["Alagoas 101"]["s10Data"]), (6.88, "ticketlog", "2026-11-26"))
+        self.assertEqual(p["Alagoas 101"]["s500"], 7.0)  # S-500 não vem da Ticketlog
+        self.assertEqual(snap["origem"], "ticketlog")
+        self.assertEqual(snap["ticketlogEm"], "2026-11-27")
+
+    def test_apelido_liga_nome_diferente(self):
+        snap, _ = self.aplicar()
+        self.assertEqual(self.postos(snap)["Salvador"]["s10"], 6.56)
+
+    def test_preco_velho_ou_implausivel_mantem_o_que_ja_havia(self):
+        snap, rel = self.aplicar()
+        p = self.postos(snap)
+        self.assertEqual((p["Uirapuru"]["s10"], "s10Fonte" in p["Uirapuru"]), (6.70, False))
+        self.assertEqual((p["Itabuna"]["s10"], "s10Fonte" in p["Itabuna"]), (6.79, False))
+        motivos = dict(rel["velhos"])
+        self.assertIn("72 dias", motivos["Uirapuru"])
+        self.assertEqual(motivos["Itabuna"], "preço fora do plausível")
+
+    def test_posto_fora_da_tabela_vira_extra_so_se_o_preco_for_valido(self):
+        snap, rel = self.aplicar()
+        self.assertEqual([e["nome"] for e in snap["extras"]], ["Reforco Ii"])
+        self.assertEqual((snap["extras"][0]["s10"], snap["extras"][0]["uf"], snap["extras"][0]["data"]), (7.42, "SE", "2026-11-26"))
+        self.assertEqual(rel["sem_linha"], ["Sem Linha"])
+
+    def test_nova_leitura_apaga_marcas_antigas_e_nao_altera_a_base(self):
+        base = self.base()
+        base["regioes"][0]["postos"][0].update({"s10Fonte": "ticketlog", "s10Data": "2026-11-01"})
+        original = repr(base)
+        snap, _ = tl.sobrepor(base, [], self.HOJE, 7, {})
+        self.assertNotIn("s10Fonte", self.postos(snap)["Alagoas 101"])
+        self.assertEqual(repr(base), original)
+
+    def test_trava_do_robo_vale_tambem_para_snapshot_da_ticketlog(self):
+        import json
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "precos").mkdir()
+            antigo = pp.DADOS
+            pp.DADOS = Path(tmp)
+            try:
+                (Path(tmp) / "precos" / "2026-11-27.json").write_text(json.dumps({"origem": "ticketlog", "regioes": []}))
+                self.assertTrue(pp.manual_do_dia({"snapshots": ["2026-11-27"]}, "2026-11-27"))
             finally:
                 pp.DADOS = antigo
 

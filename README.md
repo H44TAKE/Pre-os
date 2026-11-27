@@ -83,6 +83,19 @@ python scripts/importar_precos_pdf.py "C:/caminho/Preços Atualizados.pdf"      
 
 A data vem do cabeçalho do PDF. Os postos do PDF recebem S-500 e S-10 do PDF ("-" = sem preço); os que não estão no PDF mantêm o preço que já tinham (por exemplo, o do portal). O snapshot sai marcado com `"origem": "pdf"`, e o robô automático do portal **não o sobrescreve no mesmo dia**; no dia seguinte ele volta a rodar normalmente.
 
+**S-10 da Ticketlog** (página TED → Gestão de Preço, "Postos onde abasteço"). É a fonte mais atual do S-10, mas só vale para o S-10 Comum (a página não tem S-500) e exige você logado na Ticketlog, então não roda sozinho. Leva 1 minuto:
+
+1. Logado, abra `https://plataforma.ticketlog.com.br/fuel-negotiation/price-management/list`.
+2. Aperte F12, vá em "Console", cole o conteúdo de `scripts/ticketlog_extrair.js` e dê Enter. Ele escolhe "Todas" no seletor de linhas, lê a tabela e copia o resultado.
+3. Cole num arquivo `scripts/entrada/ticketlog.csv` (pasta ignorada pelo Git) e rode:
+
+```bash
+python scripts/importar_precos_ticketlog.py scripts/entrada/ticketlog.csv --sem-gravar   # só mostra
+python scripts/importar_precos_ticketlog.py scripts/entrada/ticketlog.csv                # grava o snapshot de hoje
+```
+
+Regras: o preço da Ticketlog só entra se a "última atualização" dele tiver até 7 dias (`--max-dias`) e o valor for plausível (R$ 5,00 a R$ 11,00); senão o posto mantém o preço do PDF/portal. Os postos "fora da tabela" que têm S-10 válido passam a mostrar esse preço. Nomes que não casam sozinhos ficam em `scripts/apelidos_ticketlog.json`. No site, o topo mostra a data da leitura da Ticketlog, e os postos cujo S-10 ficou com o preço da tabela ganham a marca "tabela". O snapshot sai com `"origem": "ticketlog"`, e o robô do portal não o sobrescreve no mesmo dia.
+
 **Preços por planilha** (alternativa; planilha `.xlsx`, aba `A VISTA`):
 
 ```bash

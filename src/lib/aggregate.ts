@@ -59,6 +59,7 @@ export function datasAtivas(agg: AggPosto[]): string[] {
 /** Lista unificada: tabela de preços + postos que só existem no histórico. */
 export function montarPostos(atual: SnapshotPrecos, anterior: SnapshotPrecos | null, dados: DadosAbastecimento, naoAbastecemos: string[] = []): Posto[] {
   const bloqueados = new Set(naoAbastecemos.map(normalizeForMatch));
+  const extras = new Map((atual.extras ?? []).map((x) => [normalizeForMatch(x.nome), x] as const));
   const estabs = resumoEstabelecimentos(dados.rows);
   const porMatch = new Map<string, EstabResumo>();
   for (const e of estabs) porMatch.set(normalizeForMatch(e.nome), e);
@@ -83,6 +84,8 @@ export function montarPostos(atual: SnapshotPrecos, anterior: SnapshotPrecos | n
         bandeira: p.bandeira,
         s500: p.s500,
         s10: p.s10,
+        s10Fonte: p.s10Fonte ?? null,
+        s10Data: p.s10Data ?? null,
         deltaS10: prev != null && p.s10 != null ? Math.round((p.s10 - prev) * 100) / 100 : null,
         histKey: m?.key ?? null,
         foraDaTabela: false,
@@ -92,16 +95,19 @@ export function montarPostos(atual: SnapshotPrecos, anterior: SnapshotPrecos | n
   }
   for (const e of estabs) {
     if (usados.has(e.key)) continue;
+    const extra = extras.get(normalizeForMatch(e.nome));
     postos.push({
       id: `hist-${slug(e.key)}`,
       nome: e.nome,
       regiaoSigla: null,
       regiaoNome: null,
-      cidade: null,
+      cidade: extra?.cidade ?? null,
       rodovia: null,
       bandeira: null,
       s500: null,
-      s10: null,
+      s10: extra?.s10 ?? null,
+      s10Fonte: extra ? "ticketlog" : null,
+      s10Data: extra?.data ?? null,
       deltaS10: null,
       histKey: e.key,
       foraDaTabela: true,

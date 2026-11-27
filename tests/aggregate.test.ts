@@ -62,3 +62,50 @@ describe("dados reais", () => {
     expect(k.top5[0].s10).toBe(k.menor!.s10);
   });
 });
+
+describe("preços da Ticketlog", () => {
+  const snap: SnapshotPrecos = {
+    atualizadoEm: "2026-11-27",
+    origem: "ticketlog",
+    ticketlogEm: "2026-11-27",
+    regioes: [
+      {
+        sigla: "AL",
+        nome: "Alagoas",
+        postos: [
+          { nome: "Alagoas 101", rodovia: "BR 101", cidade: "São Sebastião", s500: 7.19, s10: 6.88, bandeira: "BR", s10Fonte: "ticketlog", s10Data: "2026-11-26" },
+          { nome: "Linhares", rodovia: "BR 101", cidade: "Linhares", s500: 6.57, s10: 6.77, bandeira: "BR" },
+        ],
+      },
+    ],
+    extras: [{ nome: "Reforco Ii", cidade: "Umbauba", uf: "SE", s10: 7.42, data: "2026-11-26" }],
+  };
+  const dados: DadosAbastecimento = {
+    rows: [mk("2026-11-20", 7.5, "POSTO REFORCO II"), mk("2026-11-20", 7.5, "POSTO SEM PRECO")],
+    servicos: ["S10"],
+    servicoPadrao: "S10",
+  };
+  const postos = montarPostos(snap, null, dados);
+  const por = (nome: string) => postos.find((p) => p.nome === nome)!;
+
+  it("posto da tabela leva a fonte e a data do S-10 que a Ticketlog informou", () => {
+    expect([por("Alagoas 101").s10Fonte, por("Alagoas 101").s10Data]).toEqual(["ticketlog", "2026-11-26"]);
+  });
+  it("posto da tabela sem leitura da Ticketlog fica com a marca nula (preço da tabela)", () => {
+    expect([por("Linhares").s10Fonte, por("Linhares").s10Data]).toEqual([null, null]);
+  });
+  it("posto fora da tabela ganha o S-10 do 'extras' quando o nome casa", () => {
+    const p = por("POSTO REFORCO II");
+    expect(p.foraDaTabela).toBe(true);
+    expect([p.s10, p.s10Fonte, p.s10Data, p.cidade]).toEqual([7.42, "ticketlog", "2026-11-26", "Umbauba"]);
+  });
+  it("posto fora da tabela sem extra continua sem preço", () => {
+    const p = postos.find((x) => x.foraDaTabela && x.s10 === null)!;
+    expect([p.s10, p.s10Fonte]).toEqual([null, null]);
+  });
+  it("os extras não entram nas contas da tabela (menor/maior S-10)", () => {
+    const k = calcularKpis(postos);
+    expect(k.total).toBe(2);
+    expect(k.maior!.s10).toBe(6.88);
+  });
+});
