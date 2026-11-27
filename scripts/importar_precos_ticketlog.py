@@ -14,7 +14,8 @@ Regras (decididas com o time):
     plausível (R$ 5,00 a R$ 11,00). Fora disso, o posto mantém o preço que já tinha.
   - Postos que a Ticketlog tem e a tabela não (os "fora da tabela") entram em "extras" com o S-10 válido.
   - Nomes que não casam sozinhos ficam em scripts/apelidos_ticketlog.json (nome normalizado -> nome normalizado).
-  - O snapshot sai com "origem": "ticketlog"; o robô do portal não o sobrescreve no mesmo dia.
+  - O snapshot sai com "origem": "ticketlog". O robô do portal pode refazê-lo no mesmo dia e nos seguintes: ele
+    preserva o S-10 da Ticketlog enquanto o preço tiver até 7 dias e só usa o preço do portal nos demais postos.
 """
 import argparse
 import copy
